@@ -1,6 +1,6 @@
 # Training Knowledge Vault — LLM Instructions
 
-> This is a training version of a CTI/OSINT knowledge vault, designed to demonstrate vault architecture and methodology. It contains sanitised, realistic content drawn from operational practice. No real credentials, IPs, or personal information are present.
+> This is a training version of a knowledge vault, designed to demonstrate vault architecture and methodology. It contains sanitised, realistic content drawn from operational practice. No real credentials, IPs, or personal information are present.
 
 This file is loaded automatically by Claude Code when this vault is the working directory.
 
