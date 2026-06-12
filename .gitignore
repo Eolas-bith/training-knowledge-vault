@@ -1,0 +1,4 @@
+# training-knowledge-vault
+.DS_Store
+*.pyc
+__pycache__/

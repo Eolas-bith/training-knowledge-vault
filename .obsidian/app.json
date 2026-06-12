@@ -1,0 +1,13 @@
+{
+  "legacyEditor": false,
+  "livePreview": true,
+  "defaultViewMode": "source",
+  "vimMode": false,
+  "showLineNumber": false,
+  "foldHeading": true,
+  "foldIndent": true,
+  "tabSize": 2,
+  "useTab": false,
+  "spellcheck": false,
+  "promptDelete": true
+}
