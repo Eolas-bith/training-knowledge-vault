@@ -12,129 +12,73 @@ SORT status ASC, title ASC
 
 ## By Domain
 
-### Detection Engineering
-- [[10-skills/detection-engineering]] — SIEM rule lifecycle: query language, suppression design, ATT&CK mapping, priority assignment, quality metrics
+### Vault Methodology
 
-**Reference knowledge:**
-- [[50-knowledge/detection-engineering/index|Detection Engineering Index]] — entry point and navigation
-- [[50-knowledge/detection-engineering/detection-rule-templates|Detection Rule Templates]] — rule proposal guide: templates by input type (technique, process, cmd-line, Event ID, IP/domain/hash, registry, vendor alert, auth, cloud)
-- [[50-knowledge/detection-engineering/insightidr-query-language|SIEM Query Language]] — JSON operator reference
-- [[50-knowledge/detection-engineering/field-reference|Field Reference]] — field paths by event type and vendor integration
-- [[50-knowledge/detection-engineering/lolbins-process-patterns|Windows LOLBins & Process Patterns]] — LOLBin abuse patterns, parent→child chains, suspicious paths, renamed binary detection
-- [[50-knowledge/detection-engineering/linux-process-patterns|Linux Process Patterns]] — GTFOBins, web server process tree abuse, reverse shells, credential access, persistence, container escape
-- [[50-knowledge/detection-engineering/windows-event-ids|Windows Event IDs]] — Security Event ID reference: 4624–5145, 7045, 1102
-- [[50-knowledge/detection-engineering/suricata-snort-syntax|Suricata/Snort Syntax]] — complete rule syntax, all protocol buffers (HTTP/TLS/DNS/SMB/SSH/JA3), flowbits, threshold
-- [[50-knowledge/detection-engineering/att-ck-coverage-map|ATT&CK Coverage Map]] — technique coverage with rule counts
-- [[50-knowledge/detection-engineering/data-sources-event-types|Data Sources & Event Types]] — event type identifiers for integrations
-- [[50-knowledge/detection-engineering/rule-quality-metrics|Rule Quality Metrics]] — matchRate, suppressionRate, falsePositives thresholds and tuning decision tree
-- [[50-knowledge/detection-engineering/suppression-patterns|Suppression Patterns]] — suppression strategy patterns with annotated examples
+- [[10-skills/vault-curation]] — four-phase lessons system: capture → aggregate → review → apply; skill files only touched in Phase 4 with explicit analyst approval
+- [[10-skills/_template]] — template for adding a new skill
 
-**Script:** `97-scripts/detection-engineering/analyze-rules.py` — CLI tool to filter/search/export rules by technique, tactic, priority, event type, quality
+**Reference:**
+- [[00-index/lessons-log]] — central lessons inbox; all open and applied lessons
+- [[00-index/vault-curation-log]] — state tracker: last run, sessions processed, commit hashes
+- [[30-prompts/vault-distillation-prompt]] — prompt that drives the Phase 2 aggregation run
 
 ---
 
-### Malware Analysis
-- [[10-skills/malware-analysis]] — ELF/Linux automated pipeline (REMnux, malcat, capa, floss)
-- [[10-skills/windows-pe-reversing]] — Windows PE manual reversing (IDA, FLARE-VM, anti-analysis bypass)
-- [[10-skills/yara-generation]]
+### Analytical Techniques & Intelligence Structuring
+
+- *(Add your SAT / ACH / structured analysis skill here — see `10-skills/_template.md`)*
 
 **Reference knowledge:**
-- [[50-knowledge/re-fundamentals]] — x86/x64 assembly, registers, calling conventions, debugging
-- [[50-knowledge/windows-api-malware]] — Win32 API patterns: File/Registry/Process/Network/anti-analysis
+- [[50-knowledge/ontology-and-llm]] — why ontologies matter for LLM and AI work; entity types, relation schemas, STIX 2.1, MITRE ATT&CK, provenance
 
-### Threat Intelligence & IOC Enrichment
-- [[50-knowledge/threat-actors/_template]] — threat actor profile template (identity, victimology, MO, ATT&CK, IOCs)
-- [[10-skills/threat-intel]]
-- [[10-skills/threat-research-ioc]]
-- [[10-skills/misp-ingestion]]
-- [[10-skills/cti-misp-pipeline]]
-- [[10-skills/twitter-x-cti-pipeline]]
-- [[10-skills/ta-attribution-map]] — probabilistic TA attribution from knowledge graph
-
-**Reference knowledge:**
-- [[50-knowledge/mitre-atlas/README|MITRE ATLAS]] — adversarial ML attack taxonomy for AI/ML systems
-
-### Web Intelligence & Scraping
-- [[10-skills/webcrawler-mcp]] — static + JS scraping, BFS crawl, offline snapshots, HAR, via MCP
-
-### Dark Web OSINT
-- [[50-knowledge/tools/robin-darkweb-osint]] — AI-powered dark web OSINT tool; Tor search across multiple .onion engines, LLM synthesis
-
-### OSINT & Narrative / Influence Research
-- [[10-skills/poi-osint]]
-- [[10-skills/influence-ops-media]]
-- [[10-skills/narrative-threat-actor]]
-- [[10-skills/forensic-linguistics]] — authorship attribution, AI detection, stylometry
-- [[50-knowledge/ai-detection-tools]] — AI-generated text detection methods, limitations
-- [[10-skills/disarm-framework]] — DISARM Red/Blue; disinformation TTP taxonomy; counter-narrative mapping
-- [[10-skills/narrative-framing-analysis]] — Entman framing theory, van Dijk CDA, BEND framework
+---
 
 ### Knowledge Graphs
+
 - [[50-knowledge/knowledge-graphs/README|Knowledge Graphs]] — theory, ontologies, LLM integration, NLP extraction pipeline
-- [[50-knowledge/knowledge-graphs/01-foundations]] — graph types, formal definitions, KG vs other data models
-- [[50-knowledge/knowledge-graphs/02-ontologies]] — RDF/OWL/SKOS standards; STIX 2.1, UCO, MISP ontologies
-- [[50-knowledge/knowledge-graphs/03-llm-integration]] — GraphRAG, KG-augmented RAG, KGQA, LLM-assisted extraction
-- [[50-knowledge/knowledge-graphs/04-extraction-pipeline]] — NER + SVO + sentiment pipeline with full code
 
-**Script:** `97-scripts/slack-intel/kg_triples.py` — production implementation of the extraction pipeline
+---
 
-### Analytical Techniques & Intelligence Structuring
-- [[10-skills/structured-analytical-techniques]] — SATs (ACH, KAC, Red Team), Diamond Model, Cyber Kill Chain, MITRE ATT&CK
-- [[10-skills/premortem-analysis]] — prospective hindsight; failure-assumption technique
-- [[10-skills/behavioral-criminal-profiling]] — FBI BAU methodology; MICE/RASCLS motivation analysis
-- [[50-knowledge/behavioral-analysis/README|Behavioral Analysis Methods]] — 7 traditions: CIB, psycholinguistic, forensic behavioral, structured threat assessment, behavioral economics, psychographic profiling, social/group behavioral
-- [[10-skills/humint-source-evaluation]] — NATO admiralty codes; source reliability and information credibility
-- [[10-skills/indications-warning-analysis]] — I&W methodology; indications lists; warning watch levels
-- [[10-skills/calibrated-estimation]] — Sherman Kent WEP; ODNI probability language; superforecasting techniques
-- [[10-skills/social-network-analysis]] — manual/qualitative network mapping; centrality measures; influence op network analysis
+### Threat Intelligence
 
-### Threat Modeling
-- [[10-skills/threat-modeling]] — STRIDE/STRIDE-LM, DREAD, PASTA, VAST, OCTAVE, LINDDUN
-
-### Quantitative Risk & Governance
-- [[10-skills/quantitative-risk-management]] — FAIR, Beta-PERT, Monte Carlo, FMEA, NIST RMF, ISO 27005
-
-### Red Team / Phishing Operations
-- [[10-skills/phishing-red-team]] — AiTM phishing with Evilginx + GoPhish
-
-### AI Red Teaming
-- [[50-knowledge/osai/README]] — OSAI cert prep: prompt injection, RAG corpus poisoning, embedding inversion, MCP exploitation, A2A protocol attacks, AI infra CVEs, supply chain, MITRE ATLAS, OWASP LLM Top 10
-
-### Digital Privacy & Security
-- [[80-privacy-security/skills/analyst-opsec]]
-- [[80-privacy-security/skills/privacy-audit]]
-- [[80-privacy-security/skills/threat-modeling-skill]]
-
-### Digital Risk & Brand Protection
+- *(Add IOC enrichment, MISP ingestion, threat actor profiling skills here)*
 
 **Reference knowledge:**
-- [[50-knowledge/takedown-remediation-matrix]] — platform-by-platform takedown matrix: supported scenarios, minimum evidence required, prerequisites; covers 35+ platforms
+- [[50-knowledge/threat-actors/_template]] — threat actor profile template (identity, victimology, MO, ATT&CK, IOCs)
+- [[50-knowledge/malware-families/_template]] — malware family profile template
 
-### Analyst Profile
+---
 
-- [[81-profile/README]] — what the profile section contains and when to load it
+### OSINT & Influence Operations
 
-### Ethics & Applied Frameworks
+- *(Add POI OSINT, influence ops, forensic linguistics skills here)*
 
-- [[10-skills/ethical-analysis-frameworks]] — principalism, deontology, consequentialism, virtue ethics, Just War Theory, DURC
+---
 
-### Vault Maintenance
+### Detection Engineering
 
-- [[10-skills/vault-curation]] — four-phase lessons system: capture → aggregate → review → apply
-- [[00-index/lessons-log]] — central lessons inbox; all open and applied lessons
-- [[00-index/vault-curation-log]] — state tracker: last run date, last session processed, commit hashes
-- [[10-skills/vault-health]] — automated health check: broken wikilinks, missing frontmatter, orphaned entities
+- *(Add your SIEM rule writing, ATT&CK coverage mapping, suppression design skills here)*
+
+---
+
+### Writing & Reporting
+
+- *(Add infosec report writing, academic writing, thesis writing skills here)*
+
+---
 
 ### Script Library
 
-Canonical copies of orchestration scripts. Vault is source of truth; runtime hosts are deployments.
+- [[97-scripts/README]] — how scripts are structured, how they map to skills and workflows, deployment pattern
 
-- [[97-scripts/README]] — index, vault-to-runtime mapping, deployment pattern
+---
 
-### Agentic Writing
-- [[85-writing/infosec-report-writing]] — threat reports, advisories, security blogs
-- [[85-writing/academic-writing]] — peer-reviewed papers, conference submissions, surveys
+## How to Add a Skill
 
-**Writing Prompts**
-- [[30-prompts/infosec-report-orchestrator]] — trigger: threat report / advisory / blog
-- [[30-prompts/vault-distillation-prompt]] — trigger: vault curation run
+1. Copy `10-skills/_template.md` to `10-skills/your-skill-name.md`
+2. Fill in the frontmatter (`title`, `tags`, `llms`, `status`, `last_updated`)
+3. Write the **Purpose**, **Required Context / Inputs**, **Tool Chain** or **Procedure**, **Output Format**, and **Notes** sections
+4. If the skill uses a script: add a `## Scripts` section with a table row linking to `97-scripts/`
+5. If the skill uses a prompt: link to `30-prompts/`
+6. Add an entry to this index under the appropriate domain
+7. Commit skill file and index update together

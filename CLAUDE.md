@@ -27,19 +27,15 @@ It is **not** a project workspace. Samples, reports, and runtime artifacts live 
 | Multi-step runbook | `40-workflows/{workflow-name}.md` |
 | Which LLM to use | `20-llm-configs/{llm-name}.md` |
 | AI persona profiles (behavioral contracts) | `22-personas/{persona-name}.md` |
-| Past cases / investigation index | `50-knowledge/investigations-index.md` |
-| OSAI (AI-300) cert prep | `50-knowledge/osai/` |
 | Known malware families | `50-knowledge/malware-families/` |
 | Threat actor profiles | `50-knowledge/threat-actors/` |
-| Behavioral analysis methods (7 traditions) | `50-knowledge/behavioral-analysis/` |
-| Detection engineering (SIEM rules, ATT&CK coverage, suppression) | `50-knowledge/detection-engineering/` |
+| Ontology / knowledge representation for AI | `50-knowledge/ontology-and-llm.md` |
+| Knowledge graph theory and extraction pipelines | `50-knowledge/knowledge-graphs/` |
 | API keys / SSH hosts | `70-credentials/` |
-| Profile section | `81-profile/` — see README for analyst identity and collaboration rules |
-| Canonical pipeline scripts (source of truth) | `97-scripts/` |
-| Platform takedown / remediation scenarios | `50-knowledge/takedown-remediation-matrix.md` |
-| MISP-MCP platform setup and rebuild | `50-knowledge/tools/misp-mcp-setup.md` |
+| Analyst identity and collaboration rules | `81-profile/README.md` |
+| Canonical pipeline scripts (source of truth) | `97-scripts/README.md` |
 | Session template (canonical frontmatter schema) | `60-sessions/_template.md` |
-| LLM config vs model-map boundary | `20-llm-configs/README.md` |
+| LLM config guide | `20-llm-configs/README.md` |
 
 ---
 
@@ -83,32 +79,18 @@ Every file has:
 
 ## Quick skill selection guide
 
-| Task | Skill |
-|------|-------|
-| Write / review / tune SIEM detection rules | `10-skills/detection-engineering.md` |
-| Draft a new detection rule (templates by input type) | `50-knowledge/detection-engineering/detection-rule-templates.md` |
-| Windows LOLBin / process chain detection patterns | `50-knowledge/detection-engineering/lolbins-process-patterns.md` |
-| Linux GTFOBins / reverse shell / container escape patterns | `50-knowledge/detection-engineering/linux-process-patterns.md` |
-| Windows Security Event ID reference | `50-knowledge/detection-engineering/windows-event-ids.md` |
-| Suricata / Snort rule syntax | `50-knowledge/detection-engineering/suricata-snort-syntax.md` |
-| ATT&CK technique → rule coverage lookup | `50-knowledge/detection-engineering/att-ck-coverage-map.md` |
-| Rule quality metrics / tuning decision tree | `50-knowledge/detection-engineering/rule-quality-metrics.md` |
-| Suppression pattern reference | `50-knowledge/detection-engineering/suppression-patterns.md` |
-| Analyse malware samples (ELF/Linux) | `10-skills/malware-analysis.md` |
-| Analyse Windows PE (manual reversing) | `10-skills/windows-pe-reversing.md` |
-| x86/x64 assembly reference | `50-knowledge/re-fundamentals.md` |
-| Windows API patterns for RE | `50-knowledge/windows-api-malware.md` |
-| Generate YARA rules | `10-skills/yara-generation.md` |
-| Enrich IOCs (VT, DNSDB, pivoting) | `10-skills/threat-research-ioc.md` |
-| Push IOCs to MISP | `10-skills/misp-ingestion.md` |
-| Investigate a person (OSINT) | `10-skills/poi-osint.md` |
-| Investigate media influence operation | `10-skills/influence-ops-media.md` |
-| Compound court/media/actor investigation | `10-skills/narrative-threat-actor.md` |
-| Apply SATs, ACH, or Red Team analysis | `10-skills/structured-analytical-techniques.md` |
-| Map intrusion via Diamond Model / ATT&CK | `10-skills/structured-analytical-techniques.md` |
-| Threat model a system (STRIDE, PASTA, LINDDUN) | `10-skills/threat-modeling.md` |
-| Quantify risk (FAIR, Monte Carlo, NIST RMF) | `10-skills/quantitative-risk-management.md` |
-| Write threat report / security blog | `85-writing/infosec-report-writing.md` |
-| Write academic paper / conference submission | `85-writing/academic-writing.md` |
-| Distil session lessons → skill files | `10-skills/vault-curation.md` |
-| Take down fake profile / phishing domain / leaked creds | `50-knowledge/takedown-remediation-matrix.md` |
+| Task | Where to go |
+|------|-------------|
+| Understand how the vault maintains itself | `10-skills/vault-curation.md` |
+| Add a new skill to the vault | `10-skills/_template.md` |
+| Add a new prompt | `30-prompts/_template.md` |
+| Add a new workflow | `40-workflows/_template.md` |
+| Run a lessons distillation pass | `30-prompts/vault-distillation-prompt.md` |
+| Understand ontologies and why they matter for AI | `50-knowledge/ontology-and-llm.md` |
+| Build or extend a knowledge graph | `50-knowledge/knowledge-graphs/README.md` |
+| Profile a threat actor | `50-knowledge/threat-actors/_template.md` |
+| Document a malware family | `50-knowledge/malware-families/_template.md` |
+| Look up credential config paths | `70-credentials/api-keys-inventory.md` |
+| Understand how scripts map to skills | `97-scripts/README.md` |
+| Log a session | `60-sessions/_template.md` |
+| See example sessions | `60-sessions/analysis-server/` |
