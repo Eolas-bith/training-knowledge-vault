@@ -63,18 +63,20 @@ count_tokens('10-skills/vault-curation.md')
 
 ### Example: real measurements from a CTI/OSINT vault (2026-06-19)
 
-| File | Chars | Lines | Words | Est. tokens |
-|------|-------|-------|-------|-------------|
-| Global CLAUDE.md (`~/.claude/`) | 4,560 | 130 | 566 | ~764–1,140 |
-| Project CLAUDE.md (`eolas-vault/`) | 12,085 | 142 | 1,490 | ~2,011–3,021 |
-| Training vault CLAUDE.md | 6,045 | 96 | 846 | ~1,142–1,511 |
+| File | Tokens (tiktoken) | Chars | Words | Lines |
+|------|------------------:|------:|------:|------:|
+| Global CLAUDE.md (`~/.claude/`) | **1,145** | 4,560 | 566 | 130 |
+| Project CLAUDE.md (`eolas-vault/`) | **3,065** | 12,085 | 1,490 | 142 |
+| Training vault CLAUDE.md | **1,547** | 6,308 | 881 | 98 |
 
-The wide range per file (764–1,140) reflects the difference between the two estimation methods. The true count falls somewhere in between; tiktoken gives a precise number.
+*Tokenizer: cl100k_base (GPT-4 BPE — closest public approximation to Claude's tokenizer). Measured 2026-06-19.*
+
+**Estimation accuracy check:** chars÷4 gives a conservative floor (underestimates by ~20%); words×1.35 hits within ~10% for these files. Both bracket the real number, which is useful for quick sizing without installing tiktoken.
 
 **Observation from these numbers:**
-- The global CLAUDE.md is small and efficient (~1K tokens)
-- The project CLAUDE.md is large at ~2,000–3,000 tokens — every session loading both pays ~3,000–4,000 tokens before any work starts
-- For a 200K-context model, this is 1.5–2% of total context consumed as fixed overhead — acceptable but worth monitoring as the vault grows
+- Global + project CLAUDE.md together: **4,210 tokens of fixed overhead** per session — consumed before any user message
+- On a 200K-context model: 2.1% of the window, comfortable but not free
+- The project CLAUDE.md at 3,065 tokens / 142 lines is 2.7× the global one — this is the file to watch as the vault grows
 
 ---
 
