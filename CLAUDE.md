@@ -82,6 +82,8 @@ Every file has:
 | Task | Where to go |
 |------|-------------|
 | Understand how the vault maintains itself | `10-skills/vault-curation.md` |
+| Count tokens in a CLAUDE.md or skill file / optimize system prompt length | `50-knowledge/system-prompt-token-management.md` |
+| Trim or calibrate CLAUDE.md per model (token budget, evals, session lifecycle) | `10-skills/vault-curation.md` → `## CLAUDE.md Maintenance` |
 | Add a new skill to the vault | `10-skills/_template.md` |
 | Add a new prompt | `30-prompts/_template.md` |
 | Add a new workflow | `40-workflows/_template.md` |
