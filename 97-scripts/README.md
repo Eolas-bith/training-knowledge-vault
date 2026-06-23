@@ -159,8 +159,10 @@ Pure standard library — no install step.
   `.githooks/pre-commit` hook blocks commits that introduce structural errors.
 - **CI:** `.github/workflows/vault-doctor.yml` runs `--strict --public-repo` on every push and PR.
 - **Secret scanning:** `.github/workflows/secret-scan.yml` runs `gitleaks` on every push and
-  PR — a content-based complement to vault-doctor's classification check. vault-doctor catches a
-  file *labelled* non-public; gitleaks catches a real secret regardless of label. Masked example
+  PR — over both the working tree and the full git history (so a secret committed and later
+  removed is still caught). A content-based complement to vault-doctor's classification check:
+  vault-doctor catches a file *labelled* non-public; gitleaks catches a real secret regardless
+  of label. Masked example
   values (the `•` placeholders) are allowlisted in `.gitleaks.toml` by pattern, not by path, so the
   credentials section is still scanned for genuine leaks.
 
