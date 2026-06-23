@@ -37,7 +37,7 @@ TYPES   = {"skill","prompt","llm-config","persona","workflow","reference",
 STATUS  = {"active","draft","deprecated","in-progress","complete"}
 VOL     = {"stable","periodic","volatile"}
 SENS    = {"public","internal","private"}
-EXEMPT  = {"README.md","CLAUDE.md","AGENTS.md","GEMINI.md"}  # root instruction files / docs about the vault, not items in it
+EXEMPT  = {"README.md","CLAUDE.md","AGENTS.md","GEMINI.md"}  # ROOT-level only (matched by path): docs about the vault, not items in it. A subdir README IS an item and is validated.
 REQUIRED = ["title","id","type","status","volatility","sensitivity"]
 
 SECTION_RE = re.compile(r"^\d{2}-")
@@ -112,14 +112,14 @@ def main():
         fm, _ = parse_frontmatter(text)
         # public-repo leakage gate: a non-public file tracked in a published repo is a leak
         # unless explicitly cleared (`publish: true`) — i.e. a redacted/synthetic copy. This
-        # runs before the EXEMPT skip so a private README is caught too.
+        # runs before the EXEMPT skip so a private (root or subdir) README is caught too.
         if args.public_repo and fm:
             sens = fm.get("sensitivity", "")
             cleared = str(fm.get("publish", "")).strip().lower() in ("true", "yes", "1")
             if sens in ("internal", "private") and not cleared:
                 err(p, f"sensitivity '{sens}' file tracked in a public repo without "
                        f"`publish: true` clearance (--public-repo)")
-        if base in EXEMPT:
+        if rel in EXEMPT:          # ROOT-level docs only; a subdir README is a real item
             continue
         if fm is None:
             err(p, "missing frontmatter block")
@@ -186,9 +186,15 @@ def main():
             return None
         if tok.endswith("/"):                      # folder reference
             return [tok] if tok.rstrip("/") in dirs else None
-        name = tok.split("/")[-1]
-        if name.endswith(".md"):
-            name = name[:-3]
+        # path-qualified token (contains a dir): resolve to that EXACT root-relative file.
+        # Do not fall back to a same-named file elsewhere — a wrong path is a broken link,
+        # and basename fallback is what made [[dir/README]] match every README (and so trip
+        # the segregation check against unrelated private READMEs).
+        if "/" in tok:
+            cand = tok if tok.endswith(".md") else tok + ".md"
+            full = os.path.normpath(os.path.join(root, cand))
+            return [full] if os.path.exists(full) else None
+        name = tok[:-3] if tok.endswith(".md") else tok
         return name_index.get(name)
 
     for p in meta:
@@ -214,7 +220,7 @@ def main():
                 err(p, f"broken link: ({tgt})")
 
     # ---- directory overload (junk-drawer detector) ----
-    content_files = [p for p in files if os.path.basename(p) not in EXEMPT]
+    content_files = [p for p in files if os.path.relpath(p, root) not in EXEMPT]
     total = len(content_files) or 1
     top_counts = {}
     dir_counts = {}

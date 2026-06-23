@@ -31,28 +31,32 @@ This section centralises knowledge, skills, and LLM/MCP-ready automations for:
 
 ---
 
+> **Section stub.** This is a section-index for the privacy & security area. The
+> sub-folder contents below are illustrative of the full vault's layout and are **not
+> included in this training subset**, so they are shown as plain names rather than links.
+
 ## Quick Reference
 
 ### Knowledge
-- [[knowledge/threat-modeling]] — STRIDE, LINDDUN, PASTA frameworks
-- [[knowledge/opsec-principles]] — OPSEC for threat analysts
-- [[knowledge/privacy-tools-catalog]] — PETs: Tor, VPN, Signal, metadata tools
-- [[knowledge/encryption-reference]] — Algorithms, protocols, key management
-- [[knowledge/network-privacy]] — DNS, Tor, VPN, traffic analysis
+- `knowledge/threat-modeling` — STRIDE, LINDDUN, PASTA frameworks
+- `knowledge/opsec-principles` — OPSEC for threat analysts
+- `knowledge/privacy-tools-catalog` — PETs: Tor, VPN, Signal, metadata tools
+- `knowledge/encryption-reference` — Algorithms, protocols, key management
+- `knowledge/network-privacy` — DNS, Tor, VPN, traffic analysis
 
 ### Skills
-- [[skills/analyst-opsec]] — Assess and harden analyst operational security
-- [[skills/privacy-audit]] — Audit privacy posture of a person, org, or infrastructure
-- [[skills/threat-modeling-skill]] — Run a structured threat modeling session
+- `skills/analyst-opsec` — Assess and harden analyst operational security
+- `skills/privacy-audit` — Audit privacy posture of a person, org, or infrastructure
+- `skills/threat-modeling-skill` — Run a structured threat modeling session
 
 ### Workflows
-- [[workflows/opsec-checklist]] — Pre-operation OPSEC verification
-- [[workflows/privacy-assessment-workflow]] — Full privacy assessment runbook
-- [[workflows/mesh-network-proxy-design]] — Strategy for hiding mesh host IPs during OSINT
+- `workflows/opsec-checklist` — Pre-operation OPSEC verification
+- `workflows/privacy-assessment-workflow` — Full privacy assessment runbook
+- `workflows/mesh-network-proxy-design` — Strategy for hiding mesh host IPs during OSINT
 
 ### Automations
-- [[automations/mcp-privacy-scan]] — MCP-based automated privacy scanning
-- [[automations/footprint-analysis]] — Digital footprint mapping (LLM + MCP)
+- `automations/mcp-privacy-scan` — MCP-based automated privacy scanning
+- `automations/footprint-analysis` — Digital footprint mapping (LLM + MCP)
 
 ---
 
@@ -83,6 +87,6 @@ This section centralises knowledge, skills, and LLM/MCP-ready automations for:
 
 | Related Section | Relationship |
 |----------------|-------------|
-| [[10-skills/poi-osint]] | Privacy audits inform and bound POI OSINT scope |
-| [[10-skills/threat-research-ioc]] | Infrastructure exposure feeds threat actor attribution |
-| [[70-credentials/README]] | Credential hygiene feeds back into OPSEC checklist |
+| `10-skills/poi-osint` *(full vault)* | Privacy audits inform and bound POI OSINT scope |
+| `10-skills/threat-research-ioc` *(full vault)* | Infrastructure exposure feeds threat actor attribution |
+| [[70-credentials/]] | Credential hygiene feeds back into OPSEC checklist (section is `private`) |

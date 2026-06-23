@@ -48,7 +48,6 @@ Do not add a file for:
 
 ## Linked Resources
 
-- Malware analysis skill: [[10-skills/malware-analysis]]
-- MISP ingestion skill: [[10-skills/misp-ingestion]]
-- Remote orchestration: [[75-remote-orchestration/README]]
 - Scripts library: [[97-scripts/README]]
+- Malware analysis skill: `10-skills/malware-analysis` *(full vault — not included in this training subset)*
+- MISP ingestion skill: `10-skills/misp-ingestion` *(full vault)*

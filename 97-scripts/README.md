@@ -130,22 +130,25 @@ every query.
 | Required fields (`title,id,type,status,volatility,sensitivity`) | ERROR | The machine contract |
 | Enum conformance (type/status/volatility/sensitivity) | ERROR | Drift between schema doc and files |
 | `id` globally unique | ERROR | Stable identity must be unambiguous |
-| Nav parity — every `NN-section/` routed in CLAUDE.md | ERROR | Unrouted dirs are unreachable by an agent |
-| Backtick paths in CLAUDE.md resolve | ERROR | Dead pointers in the system prompt |
-| Internal links resolve (`[[wikilinks]]`, `(md.md)`) | ERROR | Broken navigation |
+| Nav parity — every `NN-section/` routed in `AGENTS.md` | ERROR | Unrouted dirs are unreachable by an agent |
+| Backtick paths in `AGENTS.md` resolve | ERROR | Dead pointers in the system prompt |
+| Internal links resolve (wiki-links and `(file.md)` links) | ERROR | Broken navigation |
 | Sensitivity segregation — `public` ↛ `private` | ERROR | Privacy boundary, machine-checked |
+| Public-repo leakage (`--public-repo`) | ERROR | `internal`/`private` file lacking `publish: true` clearance |
 | Directory overload | WARN | Junk-drawer detector — split by volatility |
 | Missing `last_updated` (or `date`) | WARN | Staleness signal |
 
-Templates (`_template.md`), `README.md`, and `CLAUDE.md` are exempted where
-appropriate (placeholder links/ids by design).
+Exempt from frontmatter/link checks: templates (`_template.md`) and the **root-level**
+instruction docs only (`README.md`, `AGENTS.md`, `CLAUDE.md`, `GEMINI.md`). A `README.md`
+inside a section folder is a real item and **is** validated like any other file.
 
 **Usage:**
 
 ```bash
-python3 97-scripts/vault-doctor.py            # human-readable, errors fail
-python3 97-scripts/vault-doctor.py --strict   # warnings also fail (use in CI)
-python3 97-scripts/vault-doctor.py --json     # machine-readable
+python3 97-scripts/vault-doctor.py                       # human-readable, errors fail
+python3 97-scripts/vault-doctor.py --strict              # warnings also fail (use in CI)
+python3 97-scripts/vault-doctor.py --strict --public-repo  # also flag uncleared internal/private files
+python3 97-scripts/vault-doctor.py --json                # machine-readable
 ```
 
 Pure standard library — no install step.
@@ -154,6 +157,6 @@ Pure standard library — no install step.
 
 - **Pre-commit:** `git config core.hooksPath .githooks` (once per clone). The
   `.githooks/pre-commit` hook blocks commits that introduce structural errors.
-- **CI:** `.github/workflows/vault-doctor.yml` runs `--strict` on every push and PR.
+- **CI:** `.github/workflows/vault-doctor.yml` runs `--strict --public-repo` on every push and PR.
 
 The canonical field definitions it enforces live in `00-index/frontmatter-schema.md`.

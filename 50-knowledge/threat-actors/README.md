@@ -53,5 +53,5 @@ This section holds structured profiles for threat actors encountered in investig
 
 - Profile template: [[50-knowledge/threat-actors/_template]]
 - Investigations index: [[50-knowledge/investigations-index]]
-- Attribution methodology: [[10-skills/structured-analytical-techniques]]
-- IOC enrichment: [[10-skills/threat-research-ioc]]
+- Attribution methodology: `10-skills/structured-analytical-techniques` *(full vault — not included in this training subset)*
+- IOC enrichment: `10-skills/threat-research-ioc` *(full vault)*
