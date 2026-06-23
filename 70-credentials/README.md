@@ -1,6 +1,9 @@
 ---
 title: "Credentials — Strategy and Security Policy"
 type: reference
+id: cred-credentials
+volatility: volatile
+sensitivity: private
 tags: [credentials, security, backup, api-keys, ssh]
 status: active
 last_updated: 2026-01-15

@@ -1,6 +1,9 @@
 ---
 title: "Claude Sonnet 4.6"
 type: llm-config
+id: cfg-claude-sonnet
+volatility: volatile
+sensitivity: public
 provider: Anthropic
 model_id: claude-sonnet-4-6
 api_endpoint: https://api.anthropic.com/v1

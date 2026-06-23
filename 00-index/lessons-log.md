@@ -1,6 +1,9 @@
 ---
 title: "Lessons Log"
 type: reference
+id: idx-lessons-log
+volatility: periodic
+sensitivity: public
 tags: [vault, lessons, distillation, knowledge-management]
 status: active
 last_updated: 2026-01-15

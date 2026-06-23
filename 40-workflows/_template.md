@@ -1,6 +1,9 @@
 ---
 title: "Workflow Name"
 type: workflow
+id: ""
+volatility: ""
+sensitivity: ""
 tags: []
 llms: []
 status: draft

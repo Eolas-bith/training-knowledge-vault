@@ -1,6 +1,9 @@
 ---
 title: "Session 2026-01-22 — Influence operation investigation (media coordination)"
 type: session
+id: session-2026-01-22-example-influence-ops
+volatility: stable
+sensitivity: internal
 date: 2026-01-22
 status: complete
 tags: [session, influence-ops, osint, media-analysis, coordination, narrative]

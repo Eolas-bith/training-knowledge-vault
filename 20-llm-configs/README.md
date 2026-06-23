@@ -1,6 +1,9 @@
 ---
 title: "LLM Configs — Overview"
 type: index
+id: cfg-llm-configs
+volatility: volatile
+sensitivity: public
 section: 20-llm-configs
 last_updated: 2026-05-21
 status: active

@@ -1,6 +1,9 @@
 ---
 title: "LLM Configs — Index"
 type: index
+id: idx-llm-config-index
+volatility: periodic
+sensitivity: public
 section: 20-llm-configs
 last_updated: 2026-01-15
 status: active

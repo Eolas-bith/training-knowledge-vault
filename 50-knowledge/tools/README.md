@@ -1,6 +1,9 @@
 ---
 title: "Tools — Reference Section"
 type: reference
+id: kb-tools
+volatility: volatile
+sensitivity: public
 tags: [tools, reference, infrastructure, platforms]
 status: active
 last_updated: 2026-01-15

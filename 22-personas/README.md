@@ -1,6 +1,9 @@
 ---
 title: "AI Personas — Index"
 type: reference
+id: persona-personas
+volatility: periodic
+sensitivity: public
 tags: [personas, llm, collaboration, methodology]
 status: active
 last_updated: 2026-06-02

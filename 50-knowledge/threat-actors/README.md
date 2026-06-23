@@ -1,6 +1,9 @@
 ---
 title: "Threat Actors — Index"
 type: reference
+id: kb-threat-actors
+volatility: stable
+sensitivity: public
 tags: [threat-actor, index, CTI]
 status: active
 last_updated: 2026-01-15

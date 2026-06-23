@@ -1,6 +1,9 @@
 ---
 title: "Session Index — analysis-server"
 type: session-index
+id: session-session-index
+volatility: stable
+sensitivity: internal
 tags: [session-index, analysis-server]
 status: active
 last_updated: 2026-01-22

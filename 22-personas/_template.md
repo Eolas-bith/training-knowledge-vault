@@ -1,6 +1,9 @@
 ---
 title: "Persona Name"
 type: persona
+id: ""
+volatility: ""
+sensitivity: ""
 provider: ""
 model_ids: []
 status: active

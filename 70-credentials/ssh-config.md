@@ -1,6 +1,9 @@
 ---
 title: "SSH Configuration Reference"
 type: reference
+id: cred-ssh-config
+volatility: volatile
+sensitivity: private
 tags: [credentials, ssh, infrastructure]
 status: active
 last_updated: 2026-01-15

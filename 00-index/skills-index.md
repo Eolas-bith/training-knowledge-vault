@@ -1,3 +1,14 @@
+---
+title: "Skills Index"
+type: index
+id: idx-skills-index
+tags: [index]
+status: active
+volatility: periodic
+sensitivity: public
+last_updated: 2026-06-23
+---
+
 # Skills Index
 
 <!-- LLM: Obsidian Dataview block below — not rendered in CLI/MCP contexts. The static index in ## By Domain is the LLM-readable version. -->
