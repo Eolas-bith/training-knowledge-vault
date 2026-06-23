@@ -158,5 +158,10 @@ Pure standard library — no install step.
 - **Pre-commit:** `git config core.hooksPath .githooks` (once per clone). The
   `.githooks/pre-commit` hook blocks commits that introduce structural errors.
 - **CI:** `.github/workflows/vault-doctor.yml` runs `--strict --public-repo` on every push and PR.
+- **Secret scanning:** `.github/workflows/secret-scan.yml` runs `gitleaks` on every push and
+  PR — a content-based complement to vault-doctor's classification check. vault-doctor catches a
+  file *labelled* non-public; gitleaks catches a real secret regardless of label. Masked example
+  values (the `•` placeholders) are allowlisted in `.gitleaks.toml` by pattern, not by path, so the
+  credentials section is still scanned for genuine leaks.
 
 The canonical field definitions it enforces live in `00-index/frontmatter-schema.md`.

@@ -1,0 +1,22 @@
+title = "training-knowledge-vault — gitleaks config"
+
+# Start from gitleaks' built-in ruleset, then add vault-specific allowlisting.
+[extend]
+useDefault = true
+
+[allowlist]
+description = """
+Synthetic teaching values. Every credential in this vault is masked with the
+• (U+2022) bullet character (e.g. `sk-ant-••••••••`) — a real secret never
+contains bullets, so allowlisting the bullet run ignores the placeholders
+WITHOUT blinding the scanner to a real key accidentally committed anywhere,
+including under 70-credentials/. This is deliberately a value-pattern allowlist,
+not a path allowlist, so the credentials section is still scanned for real leaks.
+"""
+regexTarget = "match"
+regexes = [
+  '''•{2,}''',
+]
+paths = [
+  '''\.gitleaks\.toml$''',
+]
