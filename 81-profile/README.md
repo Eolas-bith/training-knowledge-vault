@@ -4,6 +4,7 @@ type: reference
 id: profile-profile
 volatility: periodic
 sensitivity: private
+publish: true
 tags: [profile, persona, identity]
 status: active
 last_updated: 2026-01-15

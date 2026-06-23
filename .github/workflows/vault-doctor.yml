@@ -11,4 +11,6 @@ jobs:
         with:
           python-version: "3.x"
       - name: Structural integrity check
-        run: python3 97-scripts/vault-doctor.py --strict
+        # --public-repo: this is a published repo, so flag any internal/private file
+        # that is not explicitly cleared with `publish: true`.
+        run: python3 97-scripts/vault-doctor.py --strict --public-repo

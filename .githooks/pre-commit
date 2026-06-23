@@ -4,8 +4,10 @@
 # Blocks a commit if vault-doctor finds structural errors.
 set -euo pipefail
 ROOT="$(git rev-parse --show-toplevel)"
+# --public-repo: this training vault is published; flag any internal/private file lacking
+# `publish: true` clearance. Drop the flag here if you fork this into a private vault.
 if command -v python3 >/dev/null 2>&1; then
-  python3 "$ROOT/97-scripts/vault-doctor.py" --root "$ROOT" || {
+  python3 "$ROOT/97-scripts/vault-doctor.py" --root "$ROOT" --public-repo || {
     echo ""
     echo "vault-doctor found structural errors — commit blocked."
     echo "Fix them, or bypass once with: git commit --no-verify"

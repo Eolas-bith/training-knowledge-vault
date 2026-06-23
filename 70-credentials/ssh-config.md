@@ -4,6 +4,7 @@ type: reference
 id: cred-ssh-config
 volatility: volatile
 sensitivity: private
+publish: true
 tags: [credentials, ssh, infrastructure]
 status: active
 last_updated: 2026-01-15

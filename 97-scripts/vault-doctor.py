@@ -18,6 +18,7 @@ Checks (ERROR = fails the run; WARN = advisory unless --strict):
   E  backtick paths in canonical file resolve (placeholders skipped)
   E  internal links resolve             [[wikilinks]] and (markdown.md) links
   E  sensitivity segregation            a `public` file must not link to a `private` file
+  E  public-repo leakage (--public-repo) internal/private file lacking `publish: true` clearance
   W  directory overload                 a section/dir holding too large a share of files
   W  missing last_updated
 
@@ -87,6 +88,9 @@ def main():
                     help="warn if one top-level section exceeds this share of all files")
     ap.add_argument("--overload-count", type=int, default=20,
                     help="warn if any single directory holds more than this many files")
+    ap.add_argument("--public-repo", action="store_true",
+                    help="assert this repo is published: error on any internal/private file "
+                         "that lacks `publish: true` clearance (drop this flag in a private fork)")
     args = ap.parse_args()
     root = os.path.abspath(args.root)
 
@@ -106,6 +110,15 @@ def main():
         name_index.setdefault(base[:-3], []).append(p)
         text = open(p, encoding="utf-8").read()
         fm, _ = parse_frontmatter(text)
+        # public-repo leakage gate: a non-public file tracked in a published repo is a leak
+        # unless explicitly cleared (`publish: true`) — i.e. a redacted/synthetic copy. This
+        # runs before the EXEMPT skip so a private README is caught too.
+        if args.public_repo and fm:
+            sens = fm.get("sensitivity", "")
+            cleared = str(fm.get("publish", "")).strip().lower() in ("true", "yes", "1")
+            if sens in ("internal", "private") and not cleared:
+                err(p, f"sensitivity '{sens}' file tracked in a public repo without "
+                       f"`publish: true` clearance (--public-repo)")
         if base in EXEMPT:
             continue
         if fm is None:

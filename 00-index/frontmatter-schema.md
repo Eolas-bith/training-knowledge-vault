@@ -36,10 +36,30 @@ exempt files (they are documents *about* the vault, not items *in* it).
 | `llms` | optional | skill, prompt, llm-config, persona | list |
 | `source_playbook` | optional | skill | path to canonical source |
 | `last_updated` | recommended | all | `YYYY-MM-DD` |
+| `publish` | optional | any `internal`/`private` file | `true` — explicit clearance to ship in a public repo |
 
 Type-specific extra fields (e.g. `session_id`, `run_dir`, `cut_off_date`,
 `actor_type`) are documented in the relevant `_template.md` and are not
 constrained by the validator beyond presence checks where noted.
+
+---
+
+## `publish` — publication clearance, separate from classification
+
+`sensitivity` answers *"who may load this?"*; `publish` answers a different
+question: *"is this specific file cleared to ship in a published (public) repo?"*
+They are distinct axes — a file can be classified `private` yet still be safe to
+publish because its content is **redacted or synthetic** (e.g. the credential
+inventory in this training vault holds only masked placeholders, and the profile
+is a stub with no real biographical data).
+
+When `vault-doctor.py` is run with `--public-repo`, any file classified `internal`
+or `private` is reported as a **leak** unless it carries `publish: true`. This
+catches the failure mode where a genuinely sensitive file is committed to a public
+remote, while letting deliberately-published synthetic examples through. The value
+must be exactly `true` (no inline comment — the frontmatter parser is line-based).
+CI and the pre-commit hook in this repo run with `--public-repo`; drop that flag if
+you fork the vault into a private repository.
 
 ---
 

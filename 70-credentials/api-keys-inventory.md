@@ -4,6 +4,7 @@ type: reference
 id: cred-api-keys-inventory
 volatility: volatile
 sensitivity: private
+publish: true
 tags: [credentials, api-keys]
 status: active
 last_updated: 2026-01-15
