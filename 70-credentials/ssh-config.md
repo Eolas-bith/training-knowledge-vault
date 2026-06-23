@@ -49,7 +49,7 @@ Host kali-worker
 |-------|------|----|-------|
 | `analysis-server` | Primary analysis host | Ubuntu 24.04 + REMnux | Runs malware pipeline, MISP, Claude Code |
 | `kb-server` | Knowledge base / Obsidian sync | macOS | Obsidian vault, git remote |
-| `kali-worker` | OSINT, web crawling, influence ops | Kali Linux | Remote work host |
+| `kali-worker` | OSINT, web crawling, source analysis | Kali Linux | Remote work host |
 
 ---
 

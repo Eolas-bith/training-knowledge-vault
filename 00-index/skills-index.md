@@ -70,9 +70,9 @@ A generic, domain-neutral chain showing how skills and a workflow fit together. 
 
 ---
 
-### OSINT & Influence Operations
+### OSINT & Open-Source Research
 
-- *(Add POI OSINT, influence ops, forensic linguistics skills here)*
+- *(Add POI OSINT, forensic linguistics, source-analysis skills here)*
 
 ---
 

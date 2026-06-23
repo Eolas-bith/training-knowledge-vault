@@ -101,7 +101,7 @@ When you extract TTPs from a threat report, map them to ATT&CK IDs. This lets yo
 
 ### OWL / RDF (for custom ontologies)
 
-If you build a domain-specific graph (e.g., for influence operations, forensic linguistics, or academic paper relationships), OWL (Web Ontology Language) over RDF triples is the standard. Key concepts:
+If you build a domain-specific graph (e.g., for media-source networks, forensic linguistics, or academic paper relationships), OWL (Web Ontology Language) over RDF triples is the standard. Key concepts:
 
 | Concept | Meaning |
 |---------|---------|

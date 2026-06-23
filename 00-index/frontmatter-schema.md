@@ -69,7 +69,7 @@ path); the `id` is the durable handle for machines and for the audit trail.
 | `30-prompts/` | `prompt` | `prompt-vault-distillation` |
 | `40-workflows/` | `wf` | `wf-ioc-triage` |
 | `50-knowledge/` | `kb` | `kb-ontology-and-llm` |
-| `60-sessions/` | `session` | `session-2026-01-15-example-malware-triage` |
+| `60-sessions/` | `session` | `session-2026-01-15-example-research-synthesis` |
 | `70-credentials/` | `cred` | `cred-api-keys-inventory` |
 | `80-privacy-security/` | `sec` | `sec-readme` |
 | `81-profile/` | `profile` | `profile-readme` |

@@ -3,7 +3,7 @@ title: "Session Index — analysis-server"
 type: session-index
 id: session-session-index
 volatility: stable
-sensitivity: internal
+sensitivity: public
 tags: [session-index, analysis-server]
 status: active
 last_updated: 2026-01-22
@@ -13,29 +13,33 @@ last_updated: 2026-01-22
 
 Append-only index of analysis sessions run on this host. Each entry links to the full session file.
 
+> These are sanitised, domain-neutral **teaching examples** — one investigation-type
+> session (running a workflow) and one maintenance-type session (a curation run) — chosen
+> to demonstrate the two session archetypes without any sensitive methodology.
+
 ---
 
-### Session 1 — ELF malware triage (BPFDoor variant)
-**Working dir:** `/home/user/files/`
+### Session 1 — Research synthesis (example)
+**Working dir:** `/home/user/research/mfa-comparison/`
 **Date:** 2026-01-15
-**Mode:** STATIC_ONLY
-**Topic:** First triage of suspected BPFDoor variant from threat feed
+**Mode:** N/A
+**Topic:** Generic worked run of the example research-synthesis workflow (MFA hardware keys vs TOTP)
 **Status:** COMPLETE
-**Summary:** Sample confirmed BPFDoor variant — BPF filter magic bytes present, raw socket use, XOR-encoded C2 config. YARA rule generated. MISP event created.
+**Summary:** Ran collect → evaluate → synthesize end to end; produced a sourced briefing; flagged one method refinement (rate source reliability and claim credibility separately).
 **Resume from:** N/A
-**Vault session:** `60-sessions/analysis-server/2026-01-15-example-malware-triage.md`
+**Vault session:** `60-sessions/analysis-server/2026-01-15-example-research-synthesis.md`
 
 ---
 
-### Session 2 — Influence operation investigation (media coordination)
-**Working dir:** `/home/user/influence-ops/nexova-case/`
+### Session 2 — Vault curation distillation run (example)
+**Working dir:** `/home/user/training-knowledge-vault/`
 **Date:** 2026-01-22
 **Mode:** N/A
-**Topic:** Coordinated media campaign analysis — pro-corporate narrative shaping across three outlets
+**Topic:** Phase 2 aggregation — harvest flagged observations from recent sessions into the lessons log
 **Status:** COMPLETE
-**Summary:** Coordination confirmed — phrase reuse rate 34%, timing cluster within 2-hour windows on 6 of 9 articles, shared bylines across outlets traced to single PR agency. TLP:AMBER report produced.
+**Summary:** Processed 1 session; logged 1 candidate lesson (`example-source-evaluation`); updated the curation log. No skill files touched (Phase 4 is analyst-driven).
 **Resume from:** N/A
-**Vault session:** `60-sessions/analysis-server/2026-01-22-example-influence-ops.md`
+**Vault session:** `60-sessions/analysis-server/2026-01-22-example-curation-run.md`
 
 ---
 

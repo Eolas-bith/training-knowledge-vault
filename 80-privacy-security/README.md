@@ -85,5 +85,4 @@ This section centralises knowledge, skills, and LLM/MCP-ready automations for:
 |----------------|-------------|
 | [[10-skills/poi-osint]] | Privacy audits inform and bound POI OSINT scope |
 | [[10-skills/threat-research-ioc]] | Infrastructure exposure feeds threat actor attribution |
-| [[10-skills/influence-ops-media]] | Analyst OPSEC is mandatory before influence ops investigations |
 | [[70-credentials/README]] | Credential hygiene feeds back into OPSEC checklist |

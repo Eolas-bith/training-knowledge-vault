@@ -22,7 +22,7 @@ last_updated: 2026-06-23
 | [[22-personas/README\|22-personas/]] | AI persona profiles — behavioral contracts, trust boundaries, interaction notes |
 | [[30-prompts/]] | Reusable prompt templates |
 | [[40-workflows/]] | Multi-step analysis workflows |
-| [[50-knowledge/investigations-index]] | All investigations — malware, CTI, influence ops |
+| [[50-knowledge/investigations-index]] | All investigations — malware, CTI, OSINT research |
 | [[50-knowledge/osai/README]] | Offensive Security for AI (OSAI) — cert prep |
 | [[50-knowledge/tools/]] | Tool reference notes |
 | [[60-sessions/]] | Dated session notes |
