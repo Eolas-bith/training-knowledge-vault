@@ -1,6 +1,9 @@
 ---
 title: "System Prompt Token Management"
 type: reference
+id: kb-system-prompt-token-management
+volatility: periodic
+sensitivity: public
 tags: [system-prompt, token-optimisation, context-window, evals, llm-ops, vault-maintenance, claude-md]
 status: active
 last_updated: 2026-06-19

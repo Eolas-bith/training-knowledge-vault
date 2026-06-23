@@ -1,6 +1,9 @@
 ---
 title: "LLM Name"
 type: llm-config
+id: ""
+volatility: ""
+sensitivity: ""
 provider: ""
 model_id: ""
 api_endpoint: ""

@@ -1,6 +1,9 @@
 ---
 title: "Digital Privacy & Security"
 type: section-index
+id: sec-privacy-security
+volatility: periodic
+sensitivity: public
 tags: [privacy, security, opsec, threat-modeling, encryption, automation]
 status: active
 last_updated: 2026-01-15

@@ -1,6 +1,9 @@
 ---
 title: "Analyst Profile — Section Stub"
 type: reference
+id: profile-profile
+volatility: periodic
+sensitivity: private
 tags: [profile, persona, identity]
 status: active
 last_updated: 2026-01-15

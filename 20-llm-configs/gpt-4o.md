@@ -1,6 +1,9 @@
 ---
 title: "GPT-4o"
 type: llm-config
+id: cfg-gpt-4o
+volatility: volatile
+sensitivity: public
 provider: OpenAI
 model_id: gpt-4o
 api_endpoint: https://api.openai.com/v1

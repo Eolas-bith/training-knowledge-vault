@@ -164,7 +164,7 @@ Open a session in this directory. `CLAUDE.md` loads automatically. Ask the agent
 
 ---
 
-## Five rules that make it work
+## The rules that make it work
 
 | Rule | Why |
 |------|-----|
@@ -173,6 +173,43 @@ Open a session in this directory. `CLAUDE.md` loads automatically. Ask the agent
 | Sessions are append-only | Past sessions are the audit trail; add new ones, never edit old ones |
 | Observations are flagged, not immediately written as lessons | LLMs cannot reliably diagnose root cause; humans review first |
 | Prompts are specific about expected output format | Vague prompts produce improvised outputs; specificity is the defence against hallucination |
+| Identity is decoupled from path (`id`) | Append-only sessions hard-code locations; stable ids let the structure be reorganised without breaking the audit trail |
+| Structure is enforced, not just documented | `vault-doctor.py` + a pre-commit hook + CI guarantee invariants regardless of how carefully anyone behaves |
+
+---
+
+## Enforced invariants: structure you don't have to remember
+
+Process discipline (how you and your agent *should* behave) degrades silently as a
+vault grows: a file gets created without frontmatter, a new directory never makes it
+into the routing table, a moved file leaves broken links behind, a private note ends
+up referenced from a public one. The fix is to make the structure *self-checking* so
+those failures surface as build errors instead of latent rot.
+
+Three additions carry this:
+
+- **`id` — stable identity, decoupled from path.** Every file has a permanent slug
+  that never changes even when the file moves. Cross-references from append-only
+  material (sessions, the investigations index) record the `id`, not the path — so the
+  knowledge tree can be reorganised freely without rewriting history. This directly
+  resolves the tension between "sessions are immutable" and "knowledge should be
+  reorganisable."
+
+- **`volatility` and `sensitivity` — classification that drives placement and access.**
+  `volatility` (`stable | periodic | volatile`) says how often a file changes and is the
+  antidote to the "knowledge becomes a junk drawer" failure mode: separate by how often
+  things change, not just by topic. `sensitivity` (`public | internal | private`) makes
+  the privacy boundary machine-checkable rather than a hopeful instruction.
+
+- **`97-scripts/vault-doctor.py` — the enforcement layer.** A dependency-free checker
+  for frontmatter, enum conformance, id uniqueness, navigation parity (every section is
+  routed in `CLAUDE.md`), link integrity, and the rule that a `public` file may never
+  link to a `private` one. It runs in a pre-commit hook and in CI (`--strict`). The
+  canonical field definitions live in `00-index/frontmatter-schema.md`.
+
+The guiding idea: **encode each structural lesson as a check, not just a paragraph.**
+A rule you have to remember will eventually be forgotten; a rule the build enforces
+cannot be.
 
 ---
 

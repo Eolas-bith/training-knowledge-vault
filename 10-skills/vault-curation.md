@@ -1,6 +1,9 @@
 ---
 title: "Vault Curation — Lessons Capture and Distillation"
 type: skill
+id: skill-vault-curation
+volatility: periodic
+sensitivity: public
 tags: [vault, curation, distillation, lessons-learned, knowledge-management, maintenance]
 llms: [claude-sonnet]
 status: active
@@ -51,6 +54,7 @@ Skill files are never touched in Phases 1–3. Phase 4 only happens when the ana
 | `ANALYTICAL-INSIGHT` | Cross-case pattern or structural observation | New knowledge entry or analytical skill |
 | `FALSE-POSITIVE` | Detection/IOC pattern that over-fires in a specific context | Skill file — adds explicit caveat |
 | `OPSEC-LESSON` | Tradecraft or OPSEC mistake or improvement | `80-privacy-security/` or relevant skill |
+| `ARCH-LESSON` | Structural/architecture observation (routing drift, schema gap, junk-drawer, broken invariant) | `CLAUDE.md`, `00-index/frontmatter-schema.md`, or this skill |
 
 ### Session File Format
 
@@ -257,6 +261,24 @@ If an execution prompt references a schema defined in another file (e.g., "see C
 
 **Rule:** Content that must never influence public-facing outputs must be in a separate directory that is structurally excluded from loading — not in the same directory with an instruction not to use it.
 
+Two complementary mechanisms implement this:
+
+1. **Metadata** — every file carries `sensitivity: public | internal | private`
+   (see `00-index/frontmatter-schema.md`). `vault-doctor.py` enforces the invariant
+   that a `public` file never links to a `private` one, so a leak shows up as a
+   build error rather than a silent attention hazard.
+2. **Physical separation for the most sensitive tiers** — `private` content
+   (personal, financial, identity, secrets) is strongest when it lives in a
+   *separate repository* pulled in as an optional git submodule, or is kept out of
+   the agent's working tree entirely. A directory in the same repo guarded only by
+   a load rule is the instruction-based guard this lesson warns against. Pattern:
+
+   ```bash
+   # private content as an optional submodule, never cloned by default consumers
+   git submodule add git@host:you/vault-private.git 90-personal
+   echo "90-personal/" >> .gitignore   # if kept local-only instead of a submodule
+   ```
+
 ### Agentic git operations require absolute paths (L-028)
 
 `cd <dir> && git mv` fails when CWD resets between invocations — common in agentic multi-step workflows where each tool call may start in the original working directory.
@@ -271,6 +293,36 @@ If an execution prompt references a schema defined in another file (e.g., "see C
 mkdir -p /home/user/eolas-vault/new-path/
 git -C /home/user/eolas-vault mv old-path/file.md new-path/file.md
 ```
+
+---
+
+## Structural Integrity (vault-doctor)
+
+The curation loop above keeps *methodology* accurate. A second, faster loop keeps
+the *structure* sound. They are different problems: methodology drift is a matter
+of judgement (an analyst decides), but structural drift is mechanical (a file lost
+its frontmatter, a directory went unrouted, a link broke, a `public` file linked to
+a `private` one) and should be caught automatically, not noticed by luck.
+
+`97-scripts/vault-doctor.py` is that enforcement. The principle: **the vault is
+strong on process discipline but needs enforced invariants — structure guaranteed
+regardless of behaviour.** See `97-scripts/README.md` for the full check list.
+
+**When it runs:**
+
+| Moment | How |
+|--------|-----|
+| Every commit | `.githooks/pre-commit` (enable once: `git config core.hooksPath .githooks`) |
+| Every push / PR | `.github/workflows/vault-doctor.yml` runs `--strict` |
+| Every distillation run | Run `vault-doctor.py` as Step 0 — never aggregate on a structurally broken vault |
+| After any move/rename/new section | Run by hand before committing |
+
+**Architectural lessons (`ARCH-LESSON`)** are applied differently from methodology
+lessons. They do not edit skill files; their destinations are `CLAUDE.md` (routing
+and rules), `00-index/frontmatter-schema.md` (the field contract), or this file. When
+a structural lesson implies a new invariant, the best application is **a new check in
+`vault-doctor.py`** so the same drift can never recur — encode the lesson as code, not
+just prose.
 
 ---
 

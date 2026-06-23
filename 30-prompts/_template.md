@@ -1,6 +1,9 @@
 ---
 title: "Prompt Name"
 type: prompt
+id: ""
+volatility: ""
+sensitivity: ""
 tags: []
 llms: []
 skill: ""

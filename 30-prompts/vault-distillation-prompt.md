@@ -1,6 +1,9 @@
 ---
 title: "Vault Distillation — Aggregation Prompt"
 type: prompt
+id: prompt-vault-distillation-prompt
+volatility: periodic
+sensitivity: public
 tags: [vault, curation, distillation, lessons-learned, maintenance]
 llms: [claude-sonnet]
 status: active

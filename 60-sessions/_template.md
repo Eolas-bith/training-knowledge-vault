@@ -1,6 +1,9 @@
 ---
 title: "Session YYYY-MM-DD — {topic}"
 type: session
+id: ""
+volatility: ""
+sensitivity: ""
 date: YYYY-MM-DD
 status: in-progress
 tags: [session, {topic-tags}]

@@ -1,6 +1,9 @@
 ---
 title: "Skill Name"
 type: skill
+id: ""
+volatility: ""
+sensitivity: ""
 tags: []
 llms: []
 status: draft

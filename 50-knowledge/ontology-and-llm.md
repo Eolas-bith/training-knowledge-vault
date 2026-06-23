@@ -1,6 +1,9 @@
 ---
 title: "Ontology — Why It Matters for LLM and AI Work"
 type: reference
+id: kb-ontology-and-llm
+volatility: stable
+sensitivity: public
 tags: [ontology, knowledge-representation, llm, knowledge-graph, rag, ai, reasoning]
 status: active
 last_updated: 2026-06-12

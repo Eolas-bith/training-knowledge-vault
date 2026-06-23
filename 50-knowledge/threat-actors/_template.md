@@ -1,6 +1,9 @@
 ---
 title: "Threat Actor Profile: [Actor Name / Internal Alias]"
 type: reference
+id: ""
+volatility: ""
+sensitivity: ""
 tags: [threat-actor, ta-profile]
 status: draft
 last_updated: YYYY-MM-DD

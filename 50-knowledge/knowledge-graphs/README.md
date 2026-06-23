@@ -1,6 +1,9 @@
 ---
 title: "Knowledge Graphs — Reference Section"
 type: reference
+id: kb-knowledge-graphs
+volatility: stable
+sensitivity: public
 tags: [knowledge-graph, NLP, ontology, LLM, entity-extraction, CTI, graph-analysis]
 status: active
 llms: [claude-sonnet, claude-opus]

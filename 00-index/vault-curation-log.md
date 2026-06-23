@@ -1,6 +1,9 @@
 ---
 title: "Vault Curation Log"
 type: reference
+id: idx-vault-curation-log
+volatility: periodic
+sensitivity: public
 tags: [vault, curation, distillation, maintenance, log]
 status: active
 last_updated: 2026-01-15
