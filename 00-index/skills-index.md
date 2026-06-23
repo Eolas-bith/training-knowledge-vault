@@ -35,6 +35,16 @@ SORT status ASC, title ASC
 
 ---
 
+### Worked Example — Research Synthesis
+
+A generic, domain-neutral chain showing how skills and a workflow fit together. Safe to read as a model for your own skill/workflow files; copy the *shape*, not the subject.
+
+- [[10-skills/example-source-collection]] — gather candidate sources for a question and log them with provenance
+- [[10-skills/example-source-evaluation]] — rate source reliability (A–F) and claim credibility (1–6) on a fixed public scale
+- [[40-workflows/example-research-synthesis]] — chains both skills into collect → evaluate → synthesize, with a quality gate between phases
+
+---
+
 ### Analytical Techniques & Intelligence Structuring
 
 - *(Add your SAT / ACH / structured analysis skill here — see `10-skills/_template.md`)*
