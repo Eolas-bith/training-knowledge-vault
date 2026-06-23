@@ -1,3 +1,14 @@
+---
+title: "Home"
+type: index
+id: idx-home
+tags: [index]
+status: active
+volatility: periodic
+sensitivity: public
+last_updated: 2026-06-23
+---
+
 # Knowledge Vault
 
 > A structured knowledge base for threat analysis, OSINT, and intelligence work.
@@ -23,9 +34,7 @@
 ## Quick Links
 
 - [[80-privacy-security/README]] — Privacy & security section hub
-- [[40-workflows/new-sample-triage]] — Fast first-pass triage for unknown samples
-- [[40-workflows/narrative-influence-investigation]] — End-to-end influence operation investigation
-- [[40-workflows/malware-llm-pipeline]] — Automated malware analysis pipeline
+- [[40-workflows/_template]] — Add a multi-step workflow
 - [[10-skills/_template]] — Add a new skill
 - [[20-llm-configs/_template]] — Add a new LLM config
 - [[22-personas/_template]] — Add a new persona

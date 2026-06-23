@@ -1,6 +1,9 @@
 ---
 title: "Analyst Operator"
 type: persona
+id: persona-analyst-operator
+volatility: periodic
+sensitivity: public
 provider: model-agnostic
 model_ids: [claude-sonnet-4-6, gpt-4o]
 status: active
@@ -48,4 +51,4 @@ How to work with this persona effectively:
 - LLM config: [[20-llm-configs/claude-sonnet]], [[20-llm-configs/gpt-4o]]
 - Skills calibrated to this persona: all skills in `10-skills/`
 - Curation process: [[10-skills/vault-curation]]
-- Confidence language reference: [[10-skills/calibrated-estimation]]
+- Confidence language reference: a `calibrated-estimation` skill (add one per your domain)

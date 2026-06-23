@@ -22,6 +22,8 @@ It is **not** a project workspace. Samples, reports, and runtime artifacts live 
 | Need | Go to |
 |------|-------|
 | What skills exist | `00-index/skills-index.md` |
+| Canonical frontmatter schema (field definitions) | `00-index/frontmatter-schema.md` |
+| Validate vault structure (run before committing) | `97-scripts/vault-doctor.py` |
 | How to run a specific investigation | `10-skills/{skill-name}.md` |
 | What prompt to use | `30-prompts/{prompt-name}.md` |
 | Multi-step runbook | `40-workflows/{workflow-name}.md` |
@@ -32,6 +34,7 @@ It is **not** a project workspace. Samples, reports, and runtime artifacts live 
 | Ontology / knowledge representation for AI | `50-knowledge/ontology-and-llm.md` |
 | Knowledge graph theory and extraction pipelines | `50-knowledge/knowledge-graphs/` |
 | API keys / SSH hosts | `70-credentials/` |
+| Digital privacy & security (OPSEC, audits, threat modeling) | `80-privacy-security/README.md` |
 | Analyst identity and collaboration rules | `81-profile/README.md` |
 | Canonical pipeline scripts (source of truth) | `97-scripts/README.md` |
 | Session template (canonical frontmatter schema) | `60-sessions/_template.md` |
@@ -41,12 +44,20 @@ It is **not** a project workspace. Samples, reports, and runtime artifacts live 
 
 ## Frontmatter fields (machine-readable)
 
-Every file has:
-- `type:` — `skill | prompt | llm-config | persona | workflow | reference | session`
+Canonical definitions live in `00-index/frontmatter-schema.md` and are enforced by
+`97-scripts/vault-doctor.py`. Every file (except this file and `README.md`) has:
+- `title:` — human-readable name
+- `id:` — **stable, globally-unique slug that never changes, even if the file moves.**
+  Cross-references that must survive reorganisation — especially from append-only
+  sessions — record the `id`, not the path. Convention: `<section-prefix>-<slug>`
+  (e.g. `kb-ontology-and-llm`, `skill-vault-curation`).
+- `type:` — `skill | prompt | llm-config | persona | workflow | reference | session | index | section-index | session-index`
+- `status:` — `active | draft | deprecated | in-progress | complete`
+- `volatility:` — `stable | periodic | volatile` (how often it changes; drives where it belongs)
+- `sensitivity:` — `public | internal | private` (who may load it; machine-checked segregation)
 - `tags:` — topic list
-- `llms:` — which LLMs this applies to
-- `status:` — `active | draft | deprecated`
-- `source_playbook:` — canonical source file on disk (skill files only)
+- `llms:` — which LLMs this applies to *(optional)*
+- `source_playbook:` — canonical source file on disk *(skill files only)*
 
 ---
 
@@ -74,6 +85,19 @@ Every file has:
    - **Prompts:** `grep -rl "type: prompt" 30-prompts/*.md | grep -v deprecated`
    - **Sessions:** Read `60-sessions/SESSION_INDEX.md` or `~/.claude/SESSION_INDEX.md`
    - **Skills by LLM:** `grep -rl "claude-sonnet" 10-skills/` / `grep -rl "gpt-4o" 10-skills/`
+
+
+9. **Reference files by `id`, not path, in anything append-only.** Sessions and the
+   investigations index are append-only, so a hard-coded path freezes the structure:
+   moving a knowledge file would silently break historical links. Record the target's
+   stable `id` (and an optional wikilink for humans). This is what lets the vault be
+   reorganised without rewriting the audit trail.
+
+10. **Run `97-scripts/vault-doctor.py` before committing structural changes.** It enforces
+   frontmatter, the type/volatility/sensitivity enums, id uniqueness, nav parity, link
+   integrity, and the public↛private segregation boundary. A pre-commit hook
+   (`.githooks/pre-commit`) and CI (`--strict`) run it automatically; run it by hand after
+   adding files, moving things, or editing this file.
 
 ---
 
