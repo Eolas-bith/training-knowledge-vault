@@ -83,16 +83,16 @@ count_tokens('10-skills/vault-curation.md')
 
 ---
 
-## What CLAUDE.md files are
+## What agent context files are
 
-Every CLAUDE.md in a project directory is automatically loaded as a system prompt by Claude Code when that directory is the working directory. The global `~/.claude/CLAUDE.md` is loaded in addition for every session.
+An agent context file in a project directory is automatically loaded as a system prompt when that directory is the working directory. The filename depends on the tool — `AGENTS.md` (Codex, Antigravity, Gemini CLI), `CLAUDE.md` (Claude Code), `GEMINI.md` (Gemini/Antigravity overrides) — but the cost model is identical. Some tools also load a global/user-level file (e.g. `~/.claude/CLAUDE.md`) in addition, every session.
 
 **This means:**
-- CLAUDE.md is not documentation — it is a system prompt
-- Every line added to CLAUDE.md is a permanent per-session charge
+- The context file is not documentation — it is a system prompt
+- Every line added to it is a permanent per-session charge
 - Skill files in `10-skills/` are only loaded when explicitly read — their length costs nothing at session start
 
-The distinction matters: a 5,000-line skill file is fine. A 500-line CLAUDE.md is worth auditing.
+The distinction matters: a 5,000-line skill file is fine. A 500-line context file is worth auditing. In this vault the single source of truth is `AGENTS.md`; the `CLAUDE.md`/`GEMINI.md` adapters stay thin, so audit `AGENTS.md` itself.
 
 ---
 
@@ -191,6 +191,6 @@ Run this audit on any CLAUDE.md that has grown by 500+ tokens, or when switching
 
 ## Key references
 
-- `10-skills/vault-curation.md` → `## CLAUDE.md Maintenance` — trim procedure and commit convention
+- `10-skills/vault-curation.md` → `## Context-File Maintenance` — trim procedure and commit convention
 - OpenAI Evals: `github.com/openai/evals` — eval framework for systematic LLM behavior validation
 - Anthropic prompt caching: minimum 1,024-token prefix required; cache reads cost 10% of base input; 5-minute TTL

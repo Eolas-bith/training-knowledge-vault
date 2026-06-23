@@ -8,12 +8,14 @@ it guarantees structure regardless of behaviour. Run it locally, in a pre-commit
 hook, and in CI.
 
 Checks (ERROR = fails the run; WARN = advisory unless --strict):
-  E  frontmatter present                (except README.md, CLAUDE.md)
+  E  frontmatter present                (except the root instruction files: README.md,
+                                          AGENTS.md, CLAUDE.md, GEMINI.md)
   E  required fields present            title, id, type, status, volatility, sensitivity
   E  enum conformance                   type / status / volatility / sensitivity
   E  id globally unique                 (templates exempt)
-  E  nav parity                         every NN-section dir is routed in CLAUDE.md
-  E  backtick paths in CLAUDE.md resolve (placeholders skipped)
+  E  nav parity                         every NN-section dir is routed in the canonical
+                                          instructions file (AGENTS.md, else CLAUDE.md)
+  E  backtick paths in canonical file resolve (placeholders skipped)
   E  internal links resolve             [[wikilinks]] and (markdown.md) links
   E  sensitivity segregation            a `public` file must not link to a `private` file
   W  directory overload                 a section/dir holding too large a share of files
@@ -34,7 +36,7 @@ TYPES   = {"skill","prompt","llm-config","persona","workflow","reference",
 STATUS  = {"active","draft","deprecated","in-progress","complete"}
 VOL     = {"stable","periodic","volatile"}
 SENS    = {"public","internal","private"}
-EXEMPT  = {"README.md","CLAUDE.md"}              # documents about the vault, not items in it
+EXEMPT  = {"README.md","CLAUDE.md","AGENTS.md","GEMINI.md"}  # root instruction files / docs about the vault, not items in it
 REQUIRED = ["title","id","type","status","volatility","sensitivity"]
 
 SECTION_RE = re.compile(r"^\d{2}-")
@@ -138,17 +140,20 @@ def main():
                 else:
                     ids[i] = p
 
-    # ---- nav parity: every NN-section dir routed in CLAUDE.md ----
-    claude = os.path.join(root, "CLAUDE.md")
-    claude_text = open(claude, encoding="utf-8").read() if os.path.exists(claude) else ""
+    # ---- nav parity: every NN-section dir routed in the canonical instructions file ----
+    # AGENTS.md is the tool-neutral canonical file; CLAUDE.md/GEMINI.md are thin adapters
+    # that point back to it. Fall back to CLAUDE.md if AGENTS.md is absent.
+    nav_name = "AGENTS.md" if os.path.exists(os.path.join(root, "AGENTS.md")) else "CLAUDE.md"
+    nav = os.path.join(root, nav_name)
+    nav_text = open(nav, encoding="utf-8").read() if os.path.exists(nav) else ""
     sections = sorted({d for d in os.listdir(root)
                        if os.path.isdir(os.path.join(root, d)) and SECTION_RE.match(d)})
     for s in sections:
-        if s not in claude_text:
-            err(claude, f"section '{s}/' is not referenced in CLAUDE.md (unrouted)")
+        if s not in nav_text:
+            err(nav, f"section '{s}/' is not referenced in {nav_name} (unrouted)")
 
-    # ---- backtick paths in CLAUDE.md resolve ----
-    for m in BACKTICK_RE.finditer(claude_text):
+    # ---- backtick paths in the canonical instructions file resolve ----
+    for m in BACKTICK_RE.finditer(nav_text):
         tok = m.group(1).strip()
         if not SECTION_RE.match(tok):
             continue
@@ -156,7 +161,7 @@ def main():
             continue  # placeholder/glob
         target = os.path.join(root, tok.rstrip("/"))
         if not os.path.exists(target):
-            err(claude, f"backtick path does not resolve: `{tok}`")
+            err(nav, f"backtick path does not resolve: `{tok}`")
 
     # ---- link resolution + segregation ----
     dirs = {os.path.relpath(os.path.join(dp, d), root).replace(os.sep, "/")

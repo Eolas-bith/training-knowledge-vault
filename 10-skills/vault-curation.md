@@ -326,24 +326,24 @@ just prose.
 
 ---
 
-## CLAUDE.md Maintenance (System Prompt Hygiene)
+## Context-File Maintenance (System Prompt Hygiene)
 
-CLAUDE.md files are system prompts, not documentation. Every token in them is paid on every exchange in every session that loads them. This is fundamentally different from skill files, which are only loaded on demand.
+The agent context file — `AGENTS.md` here, plus its tool adapters `CLAUDE.md` and `GEMINI.md` — is a system prompt, not documentation. Every token in it is paid on every exchange in every session that loads it. This is fundamentally different from skill files, which are only loaded on demand. The principles below use `AGENTS.md` as the worked example; they apply equally to any always-loaded context file.
 
 **The key distinction:**
 - Skill files in `10-skills/` — loaded explicitly when needed; their length costs nothing at session start
-- CLAUDE.md — always loaded; every line is a fixed per-session charge
+- `AGENTS.md` (and adapters) — always loaded; every line is a fixed per-session charge
 
-A 5,000-line skill file is fine. A 500-line CLAUDE.md is worth auditing.
+A 5,000-line skill file is fine. A 500-line `AGENTS.md` is worth auditing. Because the adapters point back to `AGENTS.md`, audit and trim `AGENTS.md` itself — keep `CLAUDE.md`/`GEMINI.md` thin.
 
 ### Maintenance triggers
 
 | Trigger | Action |
 |---------|--------|
-| CLAUDE.md has grown by 500+ tokens since last audit | Run a trim pass |
+| `AGENTS.md` has grown by 500+ tokens since last audit | Run a trim pass |
 | Migrating to a new model version | Recalibrate — recount tokens, re-verify caching threshold, re-test instruction-following |
 | Session behavior is inconsistent (wrong tool chosen, instructions ignored) | Audit for conflicting or redundant instructions |
-| Quarterly vault maintenance | Review all CLAUDE.md files for stale entries |
+| Quarterly vault maintenance | Review the context file and adapters for stale entries |
 
 ### What to trim
 
@@ -355,7 +355,7 @@ A 5,000-line skill file is fine. A 500-line CLAUDE.md is worth auditing.
 
 ### Trim procedure
 
-1. **Measure token count before.** Quick estimate: `python3 -c "t=open('CLAUDE.md').read(); print(len(t.split())*1.35, 'est tokens,', len(t), 'chars')"`  
+1. **Measure token count before.** Quick estimate: `python3 -c "t=open('AGENTS.md').read(); print(len(t.split())*1.35, 'est tokens,', len(t), 'chars')"`  
    For a precise count, use `tiktoken` — see `50-knowledge/system-prompt-token-management.md`.
 
 2. **Remove one category at a time.** Don't bulk-delete — trim, then verify.
@@ -364,7 +364,7 @@ A 5,000-line skill file is fine. A 500-line CLAUDE.md is worth auditing.
 
 4. **For significant trims (>200 tokens removed):** run an eval suite — compare task behavior before/after. See `50-knowledge/system-prompt-token-management.md` → Evals-driven optimization.
 
-5. **Commit:** `chore(vault): trim CLAUDE.md — N tokens removed`
+5. **Commit:** `chore(vault): trim AGENTS.md — N tokens removed`
 
 ### Full reference
 

@@ -16,6 +16,51 @@ The vault follows one core idea: **if you write your methodology clearly, an AI 
 
 ---
 
+## Why this matters (start here — no technical background needed)
+
+If you only read one section, read this one. It explains *why* a system like this exists before getting into how it is built.
+
+### The problem: a brilliant assistant with no memory and no knowledge of your work
+
+A modern AI model has read an enormous amount of the internet. That makes it a capable generalist — it can write, summarise, and reason about almost any topic. But it has two limitations that matter enormously in real work:
+
+1. **It knows nothing about *your* specific work.** It has never seen how your team does an investigation, what counts as "done" in your field, which sources you trust, or the hard-won lessons you learned the painful way. It only knows the *average* of everything it read.
+2. **It does not remember.** Each conversation starts from scratch. Anything you taught it yesterday is gone today unless it was written down somewhere the AI can read.
+
+Think of it as a brilliant new graduate who has read every textbook ever written, starts fresh every morning with no memory of the day before, and — crucially — **never says "I don't know."** When it hits a gap, it fills it with a confident, plausible-sounding guess. In the AI world this is called a *hallucination*. The danger is not that wrong answers look uncertain — it is that **a wrong answer sounds exactly as confident as a right one.**
+
+### The solution: give it the right context, on purpose
+
+**Context** is simply everything the AI knows about the task at the moment it answers. **Context curation** is the deliberate act of deciding what that should be, writing it down clearly, and keeping it current. **Knowledge management** is organising all of it so the *right* piece is in front of the AI at the *right* moment — not buried, not stale, not contradicted by three other notes.
+
+This is the difference between asking a stranger for directions and handing them a map. The stranger improvises; the map-holder follows a known-good route. Curated context is the map.
+
+### A concrete before-and-after
+
+> **Without a vault — raw AI:**
+> *"Investigate this company and tell me if it's risky."*
+> The AI improvises an answer from its general training. It may invent sources, skip the checks your field considers mandatory, and phrase guesses as facts. Ask twice and you get two different answers. You cannot tell which steps it actually performed.
+>
+> **With a vault — the AI reads your skill file first:**
+> *"Follow the company-investigation skill on this company."*
+> Now it works through *your* documented procedure: these sources, in this order, verified this way, with every claim sourced, in the output format your team requires. Run it ten times and you get ten consistent, auditable results — because it is following written methodology, not improvising.
+
+Same model. The only thing that changed is the **quality and structure of the context it was given.** That is the entire premise of this vault.
+
+### How this lets your real expertise actually get used
+
+Most valuable knowledge in any organisation is *tacit* — it lives in experienced people's heads and in scattered notes, and it evaporates when they are busy, on holiday, or gone. An AI cannot use knowledge it cannot see.
+
+Curating that expertise into structured, written form does three things:
+
+- **It makes hidden know-how explicit and reusable.** Your best practice, written down once, can be applied every time — by a junior colleague, by you next year, or by an AI agent — without depending on the original expert being in the room.
+- **It makes the AI apply *your* standards, not the internet's average.** A well-written knowledge base steers the model toward how *your domain* does things, instead of a bland blend of everything it ever read.
+- **It compounds instead of evaporating.** Because every piece of work can feed a lesson back into the written knowledge (the "feedback loop" below), the system gets *more* accurate the more it is used — the opposite of notes that rot in a drawer.
+
+In one line: **un-curated context in → confident nonsense out; curated context in → reliable, auditable work out.** Everything else in this README is the machinery for doing that curation well and keeping it honest over time.
+
+---
+
 ## The fundamental distinction: Knowledge vs Skills
 
 Most knowledge management systems treat all information as the same kind of thing. This vault makes a hard distinction that matters enormously when AI is involved.
@@ -153,8 +198,18 @@ The vault's skill files, prompt templates, and workflow runbooks are all applica
 **In Obsidian:**
 Open this directory as an Obsidian vault, install the **Dataview** plugin, and start at `00-index/HOME.md`.
 
-**With Claude Code:**
-Open a session in this directory. `CLAUDE.md` loads automatically. Ask the agent to read a skill file and follow it.
+**With an AI coding/agent tool:**
+The instructions are tool-neutral and live in **`AGENTS.md`**, with thin adapters so each tool loads them automatically. Open a session in this directory and ask the agent to read a skill file and follow it.
+
+| Tool | What loads automatically |
+|------|--------------------------|
+| **Codex** (OpenAI) | `AGENTS.md` |
+| **Google Antigravity** | `AGENTS.md` + `GEMINI.md` |
+| **Gemini CLI** | `AGENTS.md` + `GEMINI.md` (via `.gemini/settings.json`) |
+| **Claude Code** | `CLAUDE.md`, which imports `AGENTS.md` |
+| **Ollama / LM Studio** and other local runners | none — load `AGENTS.md` as the system prompt manually (see `AGENTS.md` → *Using this vault with any AI tool*) |
+
+Edit `AGENTS.md` to change the instructions; the adapter files (`CLAUDE.md`, `GEMINI.md`) point back to it, so there is no second copy to keep in sync.
 
 **Building your own vault:**
 1. Fork this repo
@@ -203,13 +258,35 @@ Three additions carry this:
 
 - **`97-scripts/vault-doctor.py` — the enforcement layer.** A dependency-free checker
   for frontmatter, enum conformance, id uniqueness, navigation parity (every section is
-  routed in `CLAUDE.md`), link integrity, and the rule that a `public` file may never
+  routed in the canonical instructions file, `AGENTS.md`), link integrity, and the rule that a `public` file may never
   link to a `private` one. It runs in a pre-commit hook and in CI (`--strict`). The
   canonical field definitions live in `00-index/frontmatter-schema.md`.
 
 The guiding idea: **encode each structural lesson as a check, not just a paragraph.**
 A rule you have to remember will eventually be forgotten; a rule the build enforces
 cannot be.
+
+---
+
+## Plain-language glossary
+
+The rest of this vault uses a few recurring terms. If any were unfamiliar above, here they are in plain English:
+
+| Term | In plain language |
+|------|-------------------|
+| **LLM** (Large Language Model) | The AI engine itself — e.g. Claude, GPT, Gemini, or a model you run on your own computer. It predicts text; on its own it has no memory of you and no knowledge of your specific work. |
+| **Agent** | An LLM that has been given tools and instructions so it can actually *do* tasks (read files, run steps), not just chat. |
+| **Context** | Everything the AI can "see" at the moment it answers — your question plus whatever files and instructions were loaded. Good answers depend far more on good context than on a cleverer model. |
+| **Context window** | The size limit on how much context fits at once, measured in *tokens*. Like short-term memory: there is only so much room, so you load what matters. |
+| **Token** | The unit the AI counts text in — very roughly ¾ of a word. Everything loaded into context costs tokens, which is why the always-loaded instruction file is kept lean. |
+| **Prompt** | The instruction you give the AI to start a task. A good prompt points it at the right skill file rather than relying on it to improvise. |
+| **Hallucination** | A confident, plausible-sounding answer that is simply wrong — what the AI produces when it has to fill a gap it has no real information for. Curated context is the main defence. |
+| **Curation** | The ongoing work of deciding what knowledge to keep, writing it clearly, fixing what is wrong, and removing what is stale — so the AI is always working from a trustworthy, current source. |
+| **Ontology** | A clear map of the *types of things* in your field and how they relate (e.g. a "threat actor" *uses* a "malware family"). Giving the AI this map lets it produce structured, checkable answers instead of loose prose. See `50-knowledge/ontology-and-llm.md`. |
+| **Skill file** | A written, step-by-step procedure for one kind of task — the AI's instruction manual for doing it your way, every time. |
+| **Knowledge file** | Reference material *about* your domain — facts and background the AI reads to understand the subject, separate from the step-by-step instructions. |
+| **Session log** | A dated record of a piece of work: what was done and anything surprising that came up, kept so lessons can be reviewed and folded back in later. |
+| **Agent context file** | The instruction file a tool auto-loads at the start of a session — `AGENTS.md` here, with `CLAUDE.md`/`GEMINI.md` as thin adapters pointing to it. |
 
 ---
 
