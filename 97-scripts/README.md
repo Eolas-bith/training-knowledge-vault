@@ -1,6 +1,9 @@
 ---
 title: "Scripts — Canonical Pipeline Code"
 type: reference
+id: script-scripts
+volatility: periodic
+sensitivity: public
 tags: [scripts, pipeline, automation, vault]
 status: active
 last_updated: 2026-06-12
@@ -107,3 +110,50 @@ When an LLM assists with scripts in this vault:
 5. Reference the script in the relevant workflow's step table.
 6. Add to `checksums.json`: `sha256sum 97-scripts/domain/script.py`.
 7. Commit skill file, workflow file, and script together.
+
+---
+
+## vault-doctor.py — Structural Integrity Checker
+
+`vault-doctor.py` is the vault's **enforced-invariants layer**. The curation
+process governs how humans and agents *should* behave; vault-doctor guarantees
+structural properties *regardless* of behaviour. It is the answer to the failure
+mode where the routing layer (CLAUDE.md) silently drifts out of sync with the
+filesystem, or files are created without frontmatter and become invisible to
+every query.
+
+**What it checks** (ERROR fails the run; WARN is advisory unless `--strict`):
+
+| Check | Level | Why |
+|-------|-------|-----|
+| Frontmatter present | ERROR | Untyped files are invisible to grep/Dataview |
+| Required fields (`title,id,type,status,volatility,sensitivity`) | ERROR | The machine contract |
+| Enum conformance (type/status/volatility/sensitivity) | ERROR | Drift between schema doc and files |
+| `id` globally unique | ERROR | Stable identity must be unambiguous |
+| Nav parity — every `NN-section/` routed in CLAUDE.md | ERROR | Unrouted dirs are unreachable by an agent |
+| Backtick paths in CLAUDE.md resolve | ERROR | Dead pointers in the system prompt |
+| Internal links resolve (`[[wikilinks]]`, `(md.md)`) | ERROR | Broken navigation |
+| Sensitivity segregation — `public` ↛ `private` | ERROR | Privacy boundary, machine-checked |
+| Directory overload | WARN | Junk-drawer detector — split by volatility |
+| Missing `last_updated` (or `date`) | WARN | Staleness signal |
+
+Templates (`_template.md`), `README.md`, and `CLAUDE.md` are exempted where
+appropriate (placeholder links/ids by design).
+
+**Usage:**
+
+```bash
+python3 97-scripts/vault-doctor.py            # human-readable, errors fail
+python3 97-scripts/vault-doctor.py --strict   # warnings also fail (use in CI)
+python3 97-scripts/vault-doctor.py --json     # machine-readable
+```
+
+Pure standard library — no install step.
+
+**Enforcement:**
+
+- **Pre-commit:** `git config core.hooksPath .githooks` (once per clone). The
+  `.githooks/pre-commit` hook blocks commits that introduce structural errors.
+- **CI:** `.github/workflows/vault-doctor.yml` runs `--strict` on every push and PR.
+
+The canonical field definitions it enforces live in `00-index/frontmatter-schema.md`.
