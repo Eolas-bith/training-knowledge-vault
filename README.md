@@ -171,7 +171,13 @@ The key feature: a `## Flagged Observations` section where unexpected findings a
 
 ### `20-llm-configs/` and `22-personas/` — Which AI to use and how
 
-One file per LLM provider or configuration, documenting the endpoint, model, context window, cost tier, and known strengths and weaknesses. Persona files define behavioural contracts for an LLM in a specific role — what you can rely on it to do consistently, and what you should not ask it to do.
+One file per LLM provider or configuration, documenting the endpoint, model, context window, cost tier, and known strengths and weaknesses. Includes `ollama-local.md` for connecting to models running on your own machine. Persona files define behavioural contracts for an LLM in a specific role — what you can rely on it to do consistently, and what you should not ask it to do.
+
+### `25-model-map/` — Local models: which to run, and when
+
+*Model selection*, kept separate from the connection configs above: which model fits which task, and when a free **local** model is the right call over a paid cloud API. Includes a beginner catalogue organised by how much RAM your machine has.
+
+**Run one locally, no API key, in a single command:** `python3 97-scripts/setup-ollama.py --all` installs [Ollama](https://ollama.com), downloads a model sized to your hardware, tests it, and prints how to point the vault at it (Linux, macOS, or Windows). See `25-model-map/ollama-models.md` and `20-llm-configs/ollama-local.md`.
 
 ### `70-credentials/` — Where secrets live (not what they are)
 
