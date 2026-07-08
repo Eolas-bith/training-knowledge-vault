@@ -113,6 +113,41 @@ When an LLM assists with scripts in this vault:
 
 ---
 
+## setup-ollama.py — Local Model Bootstrap (for beginners)
+
+`setup-ollama.py` takes someone from "I have this vault and a laptop" to "a local
+LLM is running and I know how to point the vault at it" — on **Linux, macOS, or
+Windows**, with no prior Ollama knowledge and no Python packages to install. It is
+the practical companion to `20-llm-configs/ollama-local.md` (how to connect) and
+`25-model-map/ollama-models.md` (which model, by hardware).
+
+It runs five idempotent steps, asking before it changes anything:
+
+1. **detect** — OS, CPU arch, and total RAM (RAM decides which models fit)
+2. **install** — Ollama, if missing (guided: Linux installer / `brew` / `winget`, always with a confirmation)
+3. **serve** — ensure the Ollama server is reachable at `localhost:11434`
+4. **pull** — download a RAM-appropriate beginner model set
+5. **test** — run one real generation to prove the chain works
+
+Then it prints the exact connection details (native API, OpenAI-compatible base
+URL, and how to load `AGENTS.md` as the system prompt).
+
+**Usage:**
+
+```bash
+python3 97-scripts/setup-ollama.py            # report + recommend only, change nothing
+python3 97-scripts/setup-ollama.py --all      # do everything, asking before each change
+python3 97-scripts/setup-ollama.py --all --yes  # non-interactive (assume yes)
+python3 97-scripts/setup-ollama.py --pull --models llama3.1:8b,nomic-embed-text
+```
+
+Pure standard library — no install step, no credentials (local models need no API
+key). Unlike the pipeline scripts above, it is a **setup utility**, not the
+implementation of an analytical skill, so it lives flat in `97-scripts/` next to
+`vault-doctor.py` rather than in a domain subfolder.
+
+---
+
 ## vault-doctor.py — Structural Integrity Checker
 
 `vault-doctor.py` is the vault's **enforced-invariants layer**. The curation

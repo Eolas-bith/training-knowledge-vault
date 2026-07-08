@@ -15,7 +15,7 @@ Per-provider API configuration and integration notes. One file per provider.
 
 **Scope:** API credentials structure, endpoint URLs, model IDs in use, cost tier, context window, SDK configuration, and integration notes.
 
-**Not here:** Model capability comparisons, task-to-model routing, and model selection guidance. Those live in `25-model-map/` (if present).
+**Not here:** Model capability comparisons, task-to-model routing, and model selection guidance. Those live in `25-model-map/` (which model to pick, local vs. cloud, hardware fit).
 
 ---
 
@@ -37,7 +37,10 @@ Per-provider API configuration and integration notes. One file per provider.
 |--------|----------|-------|----------|
 | `claude-sonnet.md` | Anthropic | claude-sonnet-4-6 | Primary — orchestration, long context, tool use, MCP |
 | `gpt-4o.md` | OpenAI | gpt-4o | Secondary — fast inference, multimodal, rule review |
+| `ollama-local.md` | Ollama (local) | varies | Private/offline/free — drafting, bulk, learning; no API key |
 | `_template.md` | — | — | Template for new providers |
+
+> **Model selection** (which local or cloud model to pick per task, and when to stay local vs. escalate to a frontier model) lives in `25-model-map/`. Beginners: `97-scripts/setup-ollama.py --all` sets up a local model end-to-end.
 
 ---
 

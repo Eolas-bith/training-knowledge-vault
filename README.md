@@ -207,9 +207,12 @@ The instructions are tool-neutral and live in **`AGENTS.md`**, with thin adapter
 | **Google Antigravity** | `AGENTS.md` + `GEMINI.md` |
 | **Gemini CLI** | `AGENTS.md` + `GEMINI.md` (via `.gemini/settings.json`) |
 | **Claude Code** | `CLAUDE.md`, which imports `AGENTS.md` |
-| **Ollama / LM Studio** and other local runners | none — load `AGENTS.md` as the system prompt manually (see `AGENTS.md` → *Using this vault with any AI tool*) |
+| **Ollama / LM Studio** and other local runners | none — load `AGENTS.md` as the system prompt manually (see `AGENTS.md` → *Using this vault with any AI tool*). New to local models? Run `python3 97-scripts/setup-ollama.py --all` to install and configure one end-to-end. |
 
 Edit `AGENTS.md` to change the instructions; the adapter files (`CLAUDE.md`, `GEMINI.md`) point back to it, so there is no second copy to keep in sync.
+
+**Running it on your own machine with a free local model:**
+No API key or cloud account required. Run `python3 97-scripts/setup-ollama.py --all` — it installs [Ollama](https://ollama.com), downloads a model sized to your RAM, tests it, and prints how to point the vault at it. Which model to run and when to prefer local over a cloud API is covered in `25-model-map/`; how to connect is in `20-llm-configs/ollama-local.md`.
 
 **Building your own vault:**
 1. Fork this repo

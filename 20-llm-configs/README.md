@@ -15,7 +15,7 @@ Per-provider API configuration and integration notes. One file per provider.
 
 **Scope:** API credentials structure, endpoint URLs, model IDs in use, cost tier, context window, SDK configuration, and integration notes.
 
-**Not here:** Model capability comparisons, task-to-model routing, and model selection guidance. Those belong in a separate model-map section if you create one.
+**Not here:** Model capability comparisons, task-to-model routing, and model selection guidance. Those live in `25-model-map/` (which model to pick, local vs. cloud, hardware fit).
 
 ## Boundary with model selection
 
@@ -37,4 +37,5 @@ When adding a new provider:
 |------|---------|
 | `claude-sonnet.md` | Anthropic Claude |
 | `gpt-4o.md` | OpenAI GPT-4o |
+| `ollama-local.md` | Ollama (local models — no API key; see `25-model-map/` for which to run) |
 | `_template.md` | Template for new providers |

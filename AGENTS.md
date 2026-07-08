@@ -20,6 +20,8 @@ This vault keeps one source of truth — **this file (`AGENTS.md`)** — and pro
 
 **Local models (Ollama, LM Studio, llama.cpp, and agent frontends like Continue / Cline / opencode):** these are plain inference runners with no auto-loaded context file. This file is plain Markdown — paste it as the **system prompt**, or point your frontend's "rules"/"context" setting at `AGENTS.md`. A minimal bootstrap prompt: *"Read AGENTS.md in the vault root, then follow its navigation and rules before doing any task."* Tool-specific behaviour (auto-loading, `@imports`, slash commands) does **not** apply here — everything in this file is written to work from a plain context window.
 
+> **First time running a local model?** You do not need to configure anything by hand. Run `python3 97-scripts/setup-ollama.py --all` — it installs Ollama, starts the server, downloads a model set sized to your RAM, tests it, and prints how to point the vault at it. Then read `20-llm-configs/ollama-local.md` (how to connect) and `25-model-map/ollama-models.md` (which model, by hardware).
+
 > **Keep instructions tool-neutral.** Anything in this file should make sense to *any* model. Put genuinely tool-specific behaviour in that tool's adapter file (`CLAUDE.md`, `GEMINI.md`), never here.
 
 ---
@@ -45,7 +47,10 @@ It is **not** a project workspace. Samples, reports, and runtime artifacts live 
 | How to run a specific investigation | `10-skills/{skill-name}.md` |
 | What prompt to use | `30-prompts/{prompt-name}.md` |
 | Multi-step runbook | `40-workflows/{workflow-name}.md` |
-| Which LLM to use | `20-llm-configs/{llm-name}.md` |
+| Which LLM to use (how to connect) | `20-llm-configs/{llm-name}.md` |
+| Which model to pick for a task; local vs. cloud | `25-model-map/README.md` |
+| Run the vault on a local model (Ollama), by hardware | `25-model-map/ollama-models.md` |
+| One-command local setup for beginners (Ollama) | `97-scripts/setup-ollama.py` |
 | AI persona profiles (behavioral contracts) | `22-personas/{persona-name}.md` |
 | Known malware families | `50-knowledge/malware-families/` |
 | Threat actor profiles | `50-knowledge/threat-actors/` |
