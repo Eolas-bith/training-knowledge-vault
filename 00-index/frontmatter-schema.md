@@ -6,19 +6,20 @@ tags: [schema, frontmatter, metadata, validation, architecture]
 status: active
 volatility: periodic
 sensitivity: public
-last_updated: 2026-06-23
+last_updated: 2026-09-20
 ---
 
 # Frontmatter Schema — Canonical Field Reference
 
-This file is the **single source of truth** for vault frontmatter. `CLAUDE.md`
+This file is the **single source of truth** for vault frontmatter. `AGENTS.md`
 summarises it; the validator (`97-scripts/vault-doctor.py`) enforces it; the
 `_template.md` files instantiate it. If any of those disagree with this file,
 this file wins — fix the others.
 
 Every content and index file carries a YAML frontmatter block delimited by `---`
-at the very top of the file. The root `README.md` and `CLAUDE.md` are the only
-exempt files (they are documents *about* the vault, not items *in* it).
+at the very top of the file. The root `README.md`, `AGENTS.md`, `CLAUDE.md`, and
+`GEMINI.md` are exempt because they are documents *about* the vault rather than
+items *in* it. A `README.md` inside a section is a vault item and is not exempt.
 
 ---
 
@@ -29,7 +30,8 @@ exempt files (they are documents *about* the vault, not items *in* it).
 | `title` | yes | all | free text |
 | `id` | yes | all (except `_template.md`) | stable slug, globally unique — see below |
 | `type` | yes | all | `skill \| prompt \| llm-config \| persona \| workflow \| reference \| session \| index \| section-index \| session-index` |
-| `status` | yes | all | `active \| draft \| deprecated \| in-progress \| complete` |
+| `status` | yes | non-session files | `active \| draft \| deprecated` |
+| `status` | yes | `type: session` | `in-progress \| complete \| interrupted \| failed` |
 | `volatility` | yes | content + index | `stable \| periodic \| volatile` |
 | `sensitivity` | yes | content + index | `public \| internal \| private` |
 | `tags` | recommended | all | list |
@@ -58,8 +60,10 @@ or `private` is reported as a **leak** unless it carries `publish: true`. This
 catches the failure mode where a genuinely sensitive file is committed to a public
 remote, while letting deliberately-published synthetic examples through. The value
 must be exactly `true` (no inline comment — the frontmatter parser is line-based).
-CI and the pre-commit hook in this repo run with `--public-repo`; drop that flag if
-you fork the vault into a private repository.
+CI and the local hooks in this repo run with `--public-repo`; drop that flag if
+you fork the vault into a private repository. `publish: true` is not a substitute
+for review: it means a human has checked the actual contents and cleared this
+specific synthetic or redacted file for publication.
 
 ---
 
@@ -141,6 +145,6 @@ broken segregation boundary is an error, not a warning.
 
 ## See also
 
-- `CLAUDE.md` → "Frontmatter fields" (the loaded-every-session summary)
+- `AGENTS.md` → "Frontmatter fields" (the tool-neutral, loaded-every-session summary)
 - `97-scripts/vault-doctor.py` (the enforcement)
 - `10-skills/vault-curation.md` → "Structural Integrity" (when to run the checks)

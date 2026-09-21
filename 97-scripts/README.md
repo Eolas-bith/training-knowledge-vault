@@ -6,7 +6,7 @@ volatility: periodic
 sensitivity: public
 tags: [scripts, pipeline, automation, vault]
 status: active
-last_updated: 2026-06-12
+last_updated: 2026-09-20
 ---
 
 # Scripts — Canonical Pipeline Code
@@ -153,7 +153,7 @@ implementation of an analytical skill, so it lives flat in `97-scripts/` next to
 `vault-doctor.py` is the vault's **enforced-invariants layer**. The curation
 process governs how humans and agents *should* behave; vault-doctor guarantees
 structural properties *regardless* of behaviour. It is the answer to the failure
-mode where the routing layer (CLAUDE.md) silently drifts out of sync with the
+mode where the routing layer (`AGENTS.md`) silently drifts out of sync with the
 filesystem, or files are created without frontmatter and become invisible to
 every query.
 
@@ -165,9 +165,12 @@ every query.
 | Required fields (`title,id,type,status,volatility,sensitivity`) | ERROR | The machine contract |
 | Enum conformance (type/status/volatility/sensitivity) | ERROR | Drift between schema doc and files |
 | `id` globally unique | ERROR | Stable identity must be unambiguous |
+| Adapter parity — tool adapters route to `AGENTS.md` | ERROR | Prevent split or duplicated operating contracts |
 | Nav parity — every `NN-section/` routed in `AGENTS.md` | ERROR | Unrouted dirs are unreachable by an agent |
+| Skills-index parity | ERROR | Static CLI navigation must match live skill files |
 | Backtick paths in `AGENTS.md` resolve | ERROR | Dead pointers in the system prompt |
 | Internal links resolve (wiki-links and `(file.md)` links) | ERROR | Broken navigation |
+| Live files do not link deprecated files | ERROR | Retired methodology must not remain active by reference |
 | Sensitivity segregation — `public` ↛ `private` | ERROR | Privacy boundary, machine-checked |
 | Public-repo leakage (`--public-repo`) | ERROR | `internal`/`private` file lacking `publish: true` clearance |
 | Directory overload | WARN | Junk-drawer detector — split by volatility |
@@ -190,10 +193,14 @@ Pure standard library — no install step.
 
 **Enforcement:**
 
-- **Pre-commit:** `git config core.hooksPath .githooks` (once per clone). The
-  `.githooks/pre-commit` hook blocks commits that introduce structural errors.
+- **Local setup:** install `gitleaks`, then run
+  `git config core.hooksPath .githooks` once per clone.
+- **Pre-commit:** `.githooks/pre-commit` blocks structural errors and scans the
+  staged patch for secrets.
+- **Pre-push:** `.githooks/pre-push` scans the repository and its Git history
+  before any objects leave the machine.
 - **CI:** `.github/workflows/vault-doctor.yml` runs `--strict --public-repo` on every push and PR.
-- **Secret scanning:** `.github/workflows/secret-scan.yml` runs `gitleaks` on every push and
+- **Hosted secret scanning:** `.github/workflows/secret-scan.yml` runs `gitleaks` on every push and
   PR — over both the working tree and the full git history (so a secret committed and later
   removed is still caught). A content-based complement to vault-doctor's classification check:
   vault-doctor catches a file *labelled* non-public; gitleaks catches a real secret regardless

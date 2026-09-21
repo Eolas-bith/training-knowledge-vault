@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Final publication gate. Enabled with:
+#   git config core.hooksPath .githooks
+# Scans the repository and its Git history before anything leaves the machine.
+set -euo pipefail
+
+ROOT="$(git rev-parse --show-toplevel)"
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "gitleaks is required by this public-repository hook."
+  echo "Install it, then retry. Emergency bypass: git push --no-verify"
+  exit 1
+fi
+
+gitleaks git \
+  --config "$ROOT/.gitleaks.toml" \
+  --redact \
+  "$ROOT"

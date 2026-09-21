@@ -13,10 +13,13 @@ Checks (ERROR = fails the run; WARN = advisory unless --strict):
   E  required fields present            title, id, type, status, volatility, sensitivity
   E  enum conformance                   type / status / volatility / sensitivity
   E  id globally unique                 (templates exempt)
+  E  adapter parity                     CLAUDE.md / GEMINI.md route to AGENTS.md
   E  nav parity                         every NN-section dir is routed in the canonical
                                           instructions file (AGENTS.md, else CLAUDE.md)
+  E  skills-index parity                every live skill is in the static index
   E  backtick paths in canonical file resolve (placeholders skipped)
   E  internal links resolve             [[wikilinks]] and (markdown.md) links
+  E  deprecated references              live methodology does not link deprecated files
   E  sensitivity segregation            a `public` file must not link to a `private` file
   E  public-repo leakage (--public-repo) internal/private file lacking `publish: true` clearance
   W  directory overload                 a section/dir holding too large a share of files
@@ -34,7 +37,8 @@ import argparse, json, os, re, sys
 
 TYPES   = {"skill","prompt","llm-config","persona","workflow","reference",
            "session","index","section-index","session-index"}
-STATUS  = {"active","draft","deprecated","in-progress","complete"}
+CONTENT_STATUS = {"active","draft","deprecated"}
+SESSION_STATUS = {"in-progress","complete","interrupted","failed"}
 VOL     = {"stable","periodic","volatile"}
 SENS    = {"public","internal","private"}
 EXEMPT  = {"README.md","CLAUDE.md","AGENTS.md","GEMINI.md"}  # ROOT-level only (matched by path): docs about the vault, not items in it. A subdir README IS an item and is validated.
@@ -139,7 +143,8 @@ def main():
             if v and v not in allowed:
                 err(p, f"{field}: '{v}' not in {sorted(allowed)}")
         check_enum("type", TYPES)
-        check_enum("status", STATUS)
+        status_values = SESSION_STATUS if fm.get("type") == "session" else CONTENT_STATUS
+        check_enum("status", status_values)
         check_enum("volatility", VOL)
         check_enum("sensitivity", SENS)
         if "last_updated" not in fm and "date" not in fm:
@@ -159,11 +164,45 @@ def main():
     nav_name = "AGENTS.md" if os.path.exists(os.path.join(root, "AGENTS.md")) else "CLAUDE.md"
     nav = os.path.join(root, nav_name)
     nav_text = open(nav, encoding="utf-8").read() if os.path.exists(nav) else ""
+
+    # Thin tool adapters must route back to the canonical contract.
+    if nav_name == "AGENTS.md":
+        for adapter_name in ("CLAUDE.md", "GEMINI.md"):
+            adapter = os.path.join(root, adapter_name)
+            if os.path.exists(adapter):
+                adapter_text = open(adapter, encoding="utf-8").read()
+                if "AGENTS.md" not in adapter_text:
+                    err(adapter, f"{adapter_name} does not route to canonical AGENTS.md")
     sections = sorted({d for d in os.listdir(root)
                        if os.path.isdir(os.path.join(root, d)) and SECTION_RE.match(d)})
     for s in sections:
         if s not in nav_text:
             err(nav, f"section '{s}/' is not referenced in {nav_name} (unrouted)")
+
+    # ---- skills-index parity: static catalogue matches live skill files ----
+    skills_index = os.path.join(root, "00-index", "skills-index.md")
+    actual_skills = {
+        os.path.relpath(p, root).replace(os.sep, "/")[:-3]
+        for p, fm in meta.items()
+        if fm.get("type") == "skill" and not is_template(p)
+    }
+    if actual_skills:
+        if not os.path.exists(skills_index):
+            err(skills_index, "missing authoritative skills index")
+        else:
+            index_text = open(skills_index, encoding="utf-8").read()
+            indexed_skills = set()
+            for m in WIKILINK_RE.finditer(index_text):
+                tok = m.group(1).replace("\\", "").split("|")[0].split("#")[0].strip()
+                if not tok.startswith("10-skills/"):
+                    continue
+                tok = tok[:-3] if tok.endswith(".md") else tok
+                if os.path.basename(tok) != "_template":
+                    indexed_skills.add(tok)
+            for skill in sorted(actual_skills - indexed_skills):
+                err(skills_index, f"skill is on disk but absent from static index: {skill}.md")
+            for skill in sorted(indexed_skills - actual_skills):
+                err(skills_index, f"static index references a missing/non-skill file: {skill}.md")
 
     # ---- backtick paths in the canonical instructions file resolve ----
     for m in BACKTICK_RE.finditer(nav_text):
@@ -207,10 +246,15 @@ def main():
             targets = resolve_wikilink(tok)
             if targets is None:
                 err(p, f"broken wikilink: [[{tok}]]")
-            elif src_sens == "public":
+            else:
                 for t in targets:
-                    if meta.get(t, {}).get("sensitivity") == "private":
+                    target_meta = meta.get(t, {})
+                    if src_sens == "public" and target_meta.get("sensitivity") == "private":
                         err(p, f"segregation: public file links to private [[{tok}]]")
+                    if (meta[p].get("type") != "session"
+                            and target_meta.get("status") == "deprecated"
+                            and t != p):
+                        err(p, f"live file links to deprecated [[{tok}]]")
         for m in MDLINK_RE.finditer(text):
             tgt = m.group(1).split("#")[0].strip()
             if not tgt.endswith(".md") or tgt.startswith(("http://","https://")):
@@ -219,6 +263,10 @@ def main():
             if not os.path.exists(cand):
                 err(p, f"broken link: ({tgt})")
 
+            elif (meta[p].get("type") != "session"
+                    and meta.get(cand, {}).get("status") == "deprecated"
+                    and cand != p):
+                err(p, f"live file links to deprecated ({tgt})")
     # ---- directory overload (junk-drawer detector) ----
     content_files = [p for p in files if os.path.relpath(p, root) not in EXEMPT]
     total = len(content_files) or 1

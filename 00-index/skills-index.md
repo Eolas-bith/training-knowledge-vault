@@ -6,7 +6,7 @@ tags: [index]
 status: active
 volatility: periodic
 sensitivity: public
-last_updated: 2026-06-23
+last_updated: 2026-09-20
 ---
 
 # Skills Index
@@ -97,9 +97,12 @@ A generic, domain-neutral chain showing how skills and a workflow fit together. 
 ## How to Add a Skill
 
 1. Copy `10-skills/_template.md` to `10-skills/your-skill-name.md`
-2. Fill in the frontmatter (`title`, `tags`, `llms`, `status`, `last_updated`)
+2. Fill in all required frontmatter: `title`, globally unique `id`, `type`,
+   `status`, `volatility`, and `sensitivity`; then add `tags`, `llms`, and
+   `last_updated` as applicable
 3. Write the **Purpose**, **Required Context / Inputs**, **Tool Chain** or **Procedure**, **Output Format**, and **Notes** sections
 4. If the skill uses a script: add a `## Scripts` section with a table row linking to `97-scripts/`
 5. If the skill uses a prompt: link to `30-prompts/`
 6. Add an entry to this index under the appropriate domain
-7. Commit skill file and index update together
+7. Run `python3 97-scripts/vault-doctor.py --strict` and fix any index drift
+8. Commit the skill file and index update together

@@ -4,10 +4,10 @@ type: skill
 id: skill-vault-curation
 volatility: periodic
 sensitivity: public
-tags: [vault, curation, distillation, lessons-learned, knowledge-management, maintenance]
+tags: [vault, curation, distillation, lessons-learned, knowledge-management, maintenance, publication]
 llms: [claude-sonnet]
 status: active
-last_updated: 2026-05-18
+last_updated: 2026-09-20
 ---
 
 # Vault Curation — Lessons Capture and Distillation
@@ -54,7 +54,7 @@ Skill files are never touched in Phases 1–3. Phase 4 only happens when the ana
 | `ANALYTICAL-INSIGHT` | Cross-case pattern or structural observation | New knowledge entry or analytical skill |
 | `FALSE-POSITIVE` | Detection/IOC pattern that over-fires in a specific context | Skill file — adds explicit caveat |
 | `OPSEC-LESSON` | Tradecraft or OPSEC mistake or improvement | `80-privacy-security/` or relevant skill |
-| `ARCH-LESSON` | Structural/architecture observation (routing drift, schema gap, junk-drawer, broken invariant) | `CLAUDE.md`, `00-index/frontmatter-schema.md`, or this skill |
+| `ARCH-LESSON` | Structural/architecture observation (routing drift, schema gap, junk-drawer, broken invariant) | `AGENTS.md`, `00-index/architecture.md`, `00-index/frontmatter-schema.md`, or this skill |
 
 ### Session File Format
 
@@ -231,6 +231,46 @@ git commit -m "revert(skills): restore malware-analysis.md to pre-application st
 
 ---
 
+## External Methodology and Research Intake
+
+Treat third-party repositories, skill packs, and generated research as untrusted
+inputs until reviewed. Evaluate them in scratch space outside the vault tree.
+
+For code or methodology:
+
+1. Inventory what is genuinely additive before adopting anything.
+2. Check Markdown for prompt injection and code for installers, telemetry,
+   affiliate behavior, remote fetches, obfuscation, and hardcoded secrets.
+3. Verify the licence permits reuse and preserve required attribution.
+4. Adopt methodology by re-expressing it in the vault's schema; do not wholesale
+   copy a repository into the vault.
+5. Vendor executable code only with explicit approval, pinned provenance, and an
+   output-handling rule.
+
+For LLM-generated research, verify the **claim-to-citation relationship**, not
+whether the prose sounds plausible. Open the cited source for each load-bearing
+claim, prefer the primary issuer for numbers or requirements, record corrections,
+and distinguish verified material from generated inference.
+
+## Public Template Maintenance
+
+Use [[40-workflows/public-template-maintenance]] whenever an operational or
+private vault motivates a public-template change. The public repository is a
+separate source of truth: re-author the generic invariant and synthetic example;
+never merge, cherry-pick, export a patch, or copy a source-vault tree.
+
+## Change Isolation and Rollback
+
+Keep one design concern per commit. A concern-separated change can be reviewed,
+reverted, and audited without removing unrelated improvements.
+
+Use `git revert <commit>` for changes already shared with others. Restoring an
+older file and making a new commit is acceptable for an unpublished local change;
+never reset, rebase, or force-push shared history to hide a mistake. If the mistake
+published sensitive material, treat it as disclosed even after a revert.
+
+---
+
 ## Prompt Colocation Rule
 
 When reviewing session lessons, apply this rule when deciding whether a prompt belongs in `30-prompts/` as a standalone file or embedded in the skill file that uses it:
@@ -312,14 +352,15 @@ regardless of behaviour.** See `97-scripts/README.md` for the full check list.
 
 | Moment | How |
 |--------|-----|
-| Every commit | `.githooks/pre-commit` (enable once: `git config core.hooksPath .githooks`) |
-| Every push / PR | `.github/workflows/vault-doctor.yml` runs `--strict` |
+| Every commit | `.githooks/pre-commit` runs structure + staged-secret checks (enable once: `git config core.hooksPath .githooks`) |
+| Every push | `.githooks/pre-push` repeats the repository secret scan |
+| Every push / PR in CI | `.github/workflows/vault-doctor.yml` runs `--strict --public-repo` |
 | Every distillation run | Run `vault-doctor.py` as Step 0 — never aggregate on a structurally broken vault |
 | After any move/rename/new section | Run by hand before committing |
 
 **Architectural lessons (`ARCH-LESSON`)** are applied differently from methodology
-lessons. They do not edit skill files; their destinations are `CLAUDE.md` (routing
-and rules), `00-index/frontmatter-schema.md` (the field contract), or this file. When
+lessons. They do not edit skill files; their destinations are `AGENTS.md` (routing
+and rules), `00-index/architecture.md`, `00-index/frontmatter-schema.md`, or this file. When
 a structural lesson implies a new invariant, the best application is **a new check in
 `vault-doctor.py`** so the same drift can never recur — encode the lesson as code, not
 just prose.
@@ -376,9 +417,9 @@ A 5,000-line skill file is fine. A 500-line `AGENTS.md` is worth auditing. Becau
 
 To be explicit about the boundaries:
 
-- Claude does **not** propose skill file edits during aggregation
-- Claude does **not** apply lessons in the background
-- Claude does **not** open skill files during a distillation run
+- The agent does **not** propose skill file edits during aggregation
+- The agent does **not** apply lessons in the background
+- The agent does **not** open skill files during a distillation run
 - Lessons in the log carry no implication that they will be applied — they are observations waiting for a decision
 
 The lessons log is an inbox, not a work queue.

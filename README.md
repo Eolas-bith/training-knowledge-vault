@@ -130,6 +130,12 @@ Each cycle makes the skill files more accurate. Over time the vault becomes a co
 
 ## What is in this vault?
 
+### `00-index/` — How the vault describes itself
+
+Navigation, the canonical frontmatter schema, the curation state, and the portable
+architecture contract live here. Start with `00-index/HOME.md`; read
+`00-index/architecture.md` before changing the top-level structure or write policy.
+
 ### `10-skills/` — How to do things
 
 One file per analytical capability. A skill file is a complete, self-contained procedure: purpose, required inputs, step-by-step method, output format, and notes on edge cases and failure modes.
@@ -222,9 +228,17 @@ No API key or cloud account required. Run `python3 97-scripts/setup-ollama.py --
 
 **Building your own vault:**
 1. Fork this repo
-2. Read `10-skills/vault-curation.md` — the maintenance system runs itself once you understand it
-3. Copy `10-skills/_template.md` to write your first skill file
-4. Log sessions as you work; run a curation pass after every five sessions
+2. Install [gitleaks](https://github.com/gitleaks/gitleaks), then enable the local
+   safety gates: `git config core.hooksPath .githooks`
+3. Run `python3 97-scripts/vault-doctor.py --strict --public-repo`
+4. Read `00-index/architecture.md` and `10-skills/vault-curation.md`
+5. Copy `10-skills/_template.md` to write your first skill file
+6. Log sessions as you work; run a curation pass after every five sessions
+
+For genuinely private material, use a separate private repository or a directory
+outside this working tree. The ignored `82-profile-private/` and `90-private/`
+paths are local-only fallbacks, not publication mechanisms. Do not rely on CI to
+catch a leak after a push: Git history has already published the content by then.
 
 ---
 
@@ -238,7 +252,7 @@ No API key or cloud account required. Run `python3 97-scripts/setup-ollama.py --
 | Observations are flagged, not immediately written as lessons | LLMs cannot reliably diagnose root cause; humans review first |
 | Prompts are specific about expected output format | Vague prompts produce improvised outputs; specificity is the defence against hallucination |
 | Identity is decoupled from path (`id`) | Append-only sessions hard-code locations; stable ids let the structure be reorganised without breaking the audit trail |
-| Structure is enforced, not just documented | `vault-doctor.py` + a pre-commit hook + CI guarantee invariants regardless of how carefully anyone behaves |
+| Structure is enforced, not just documented | `vault-doctor.py`, enabled local hooks, and CI enforce invariants independently of memory |
 
 ---
 
@@ -250,7 +264,7 @@ into the routing table, a moved file leaves broken links behind, a private note 
 up referenced from a public one. The fix is to make the structure *self-checking* so
 those failures surface as build errors instead of latent rot.
 
-Three additions carry this:
+Four additions carry this:
 
 - **`id` — stable identity, decoupled from path.** Every file has a permanent slug
   that never changes even when the file moves. Cross-references from append-only
@@ -267,9 +281,16 @@ Three additions carry this:
 
 - **`97-scripts/vault-doctor.py` — the enforcement layer.** A dependency-free checker
   for frontmatter, enum conformance, id uniqueness, navigation parity (every section is
-  routed in the canonical instructions file, `AGENTS.md`), link integrity, and the rule that a `public` file may never
-  link to a `private` one. It runs in a pre-commit hook and in CI (`--strict`). The
-  canonical field definitions live in `00-index/frontmatter-schema.md`.
+  routed in the canonical instructions file, `AGENTS.md`), skills-index parity,
+  link integrity, deprecated-reference hygiene, and the rule that a `public` file
+  may never link to a `private` one.
+
+- **Local and hosted publication gates.** The pre-commit hook runs structural and
+  staged-secret checks; pre-push repeats the repository secret scan; CI runs the
+  same checks against the published tree and history. Hooks are active only after
+  `git config core.hooksPath .githooks`.
+
+The canonical field definitions live in `00-index/frontmatter-schema.md`.
 
 The guiding idea: **encode each structural lesson as a check, not just a paragraph.**
 A rule you have to remember will eventually be forgotten; a rule the build enforces

@@ -6,7 +6,7 @@ volatility: stable
 sensitivity: public
 tags: [session-index, analysis-server]
 status: active
-last_updated: 2026-01-22
+last_updated: 2026-09-21
 ---
 
 # Session Index — analysis-server
@@ -40,6 +40,18 @@ Append-only index of analysis sessions run on this host. Each entry links to the
 **Summary:** Processed 1 session; logged 1 candidate lesson (`example-source-evaluation`); updated the curation log. No skill files touched (Phase 4 is analyst-driven).
 **Resume from:** N/A
 **Vault session:** `60-sessions/analysis-server/2026-01-22-example-curation-run.md`
+
+---
+
+### Session 3 — Public template architecture refresh
+**Working dir:** public template repository
+**Date:** 2026-09-21
+**Mode:** N/A
+**Topic:** Clean-room design refresh covering architecture, publication safety, and structural validation
+**Status:** COMPLETE
+**Summary:** Added a portable architecture contract and public-template maintenance workflow; aligned schema, navigation, hooks, and deterministic checks without importing operational content.
+**Resume from:** N/A
+**Vault session:** `60-sessions/analysis-server/2026-09-21-public-template-architecture-refresh.md`
 
 ---
 

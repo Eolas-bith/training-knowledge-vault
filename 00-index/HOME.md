@@ -6,7 +6,7 @@ tags: [index]
 status: active
 volatility: periodic
 sensitivity: public
-last_updated: 2026-06-23
+last_updated: 2026-09-20
 ---
 
 # Knowledge Vault
@@ -17,6 +17,7 @@ last_updated: 2026-06-23
 
 | Folder | Purpose |
 |--------|---------|
+| [[architecture]] | Portable architecture, trust zones, scaling, and publication boundary |
 | [[skills-index]] | Skills and capabilities catalogue |
 | [[llm-config-index]] | LLM configuration profiles |
 | [[22-personas/README\|22-personas/]] | AI persona profiles — behavioral contracts, trust boundaries, interaction notes |
@@ -32,6 +33,7 @@ last_updated: 2026-06-23
 
 ## Quick Links
 
+- [[40-workflows/public-template-maintenance]] — Safely transfer design lessons into the public template
 - [[80-privacy-security/README]] — Privacy & security section hub
 - [[40-workflows/_template]] — Add a multi-step workflow
 - [[10-skills/_template]] — Add a new skill

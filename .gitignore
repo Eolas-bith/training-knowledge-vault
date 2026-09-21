@@ -2,3 +2,24 @@
 .DS_Store
 *.pyc
 __pycache__/
+
+# Secret-bearing local configuration. Commit a deliberately synthetic
+# `.env.example` instead of weakening these rules.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
+
+# Local-only private material. A separate private repository or an external
+# directory is stronger; these are fallback paths for a local clone.
+82-profile-private/
+90-private/
+private-local/
+
+# Generated leak-scan reports
+gitleaks-report.json

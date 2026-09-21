@@ -5,6 +5,7 @@ id: ""
 volatility: ""
 sensitivity: ""
 date: YYYY-MM-DD
+# Session status: in-progress | complete | interrupted | failed
 status: in-progress
 tags: [session, {topic-tags}]
 session_id: N
@@ -13,6 +14,7 @@ run_dir: /path/to/run/dir/
 # Optional fields — include when relevant, delete when not:
 # case_id: INV-XXX
 # workflow_id: workflow-slug
+# task_id: task-slug
 # models_used: [claude-sonnet]
 # hosts_used: [analysis-server]
 # misp_events: []

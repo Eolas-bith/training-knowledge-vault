@@ -43,6 +43,8 @@ It is **not** a project workspace. Samples, reports, and runtime artifacts live 
 |------|-------|
 | What skills exist | `00-index/skills-index.md` |
 | Canonical frontmatter schema (field definitions) | `00-index/frontmatter-schema.md` |
+| Portable architecture, trust zones, and scaling rules | `00-index/architecture.md` |
+| Update this public template from private lessons safely | `40-workflows/public-template-maintenance.md` |
 | Validate vault structure (run before committing) | `97-scripts/vault-doctor.py` |
 | How to run a specific investigation | `10-skills/{skill-name}.md` |
 | What prompt to use | `30-prompts/{prompt-name}.md` |
@@ -76,7 +78,8 @@ Canonical definitions live in `00-index/frontmatter-schema.md` and are enforced 
   sessions — record the `id`, not the path. Convention: `<section-prefix>-<slug>`
   (e.g. `kb-ontology-and-llm`, `skill-vault-curation`).
 - `type:` — `skill | prompt | llm-config | persona | workflow | reference | session | index | section-index | session-index`
-- `status:` — `active | draft | deprecated | in-progress | complete`
+- `status:` — `active | draft | deprecated` for non-session files;
+  sessions use `in-progress | complete | interrupted | failed`
 - `volatility:` — `stable | periodic | volatile` (how often it changes; drives where it belongs)
 - `sensitivity:` — `public | internal | private` (who may load it; machine-checked segregation)
 - `tags:` — topic list
@@ -95,7 +98,8 @@ Canonical definitions live in `00-index/frontmatter-schema.md` and are enforced 
 
 3. **Do not modify vault files during an investigation** unless explicitly asked. Vault files are methodology — update them only to add genuine lessons learned or fix errors.
 
-4. **Log session activity in `60-sessions/YYYY-MM-DD-session.md`** if doing significant work from this vault context.
+4. **Log significant work using `60-sessions/_template.md`.** Keep the session
+   in the appropriate environment subdirectory and add it to the session index.
 
 5. **Flag candidate observations in `## Flagged Observations` — do not write lessons.** Record what happened, what was observed, and what was directly tried and confirmed. Do **not** diagnose root causes or assert fixes that were not verified within the session — an LLM cannot reliably distinguish a tool failure from a usage error from an environment issue. Flag the symptom; the analyst decides in Phase 3 of vault curation whether the observation is genuine, what caused it, and whether it becomes permanent methodology. See `10-skills/vault-curation.md` for the format.
 
@@ -118,9 +122,15 @@ Canonical definitions live in `00-index/frontmatter-schema.md` and are enforced 
 
 10. **Run `97-scripts/vault-doctor.py` before committing structural changes.** It enforces
    frontmatter, the type/volatility/sensitivity enums, id uniqueness, nav parity, link
-   integrity, and the public↛private segregation boundary. A pre-commit hook
-   (`.githooks/pre-commit`) and CI (`--strict`) run it automatically; run it by hand after
-   adding files, moving things, or editing this file.
+   integrity, skills-index parity, deprecated-reference hygiene, and the
+   public↛private segregation boundary. Enable the local hooks once with
+   `git config core.hooksPath .githooks`; they also require `gitleaks` and block
+   secrets before publication. CI repeats both checks.
+
+11. **Respect the architecture trust zones.** Methodology is read-only during
+   ordinary analysis, session state is narrowly writable, runtime output belongs
+   outside the vault, and secret values never enter the repository. See
+   `00-index/architecture.md`.
 
 ---
 
@@ -132,6 +142,7 @@ Canonical definitions live in `00-index/frontmatter-schema.md` and are enforced 
 | Count tokens in an agent context file (AGENTS.md / CLAUDE.md) or skill file / optimize system prompt length | `50-knowledge/system-prompt-token-management.md` |
 | Trim or calibrate the context file per model (token budget, evals, session lifecycle) | `10-skills/vault-curation.md` → `## Context-File Maintenance` |
 | Add a new skill to the vault | `10-skills/_template.md` |
+| Transfer a reusable design lesson into the public template | `40-workflows/public-template-maintenance.md` |
 | Add a new prompt | `30-prompts/_template.md` |
 | Add a new workflow | `40-workflows/_template.md` |
 | Run a lessons distillation pass | `30-prompts/vault-distillation-prompt.md` |
