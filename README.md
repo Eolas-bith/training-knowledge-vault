@@ -142,7 +142,10 @@ One file per analytical capability. A skill file is a complete, self-contained p
 
 The key property of a good skill file: **it contains no ambiguity**. An agent reading it knows exactly what to do, in what order, and what a completed run looks like. Vague skill files produce improvised agent behaviour; specific ones produce consistent, auditable results.
 
-**In this vault:** `vault-curation.md` — the skill that governs how the vault itself is maintained over time. `_template.md` — the blank template for adding your own skills.
+**In this vault:** `vault-curation.md` governs how the vault is maintained over
+time. `example-source-collection.md` and `example-source-evaluation.md` form a
+small, domain-neutral worked skill chain. `_template.md` is the blank template
+for adding your own skills.
 
 ### `30-prompts/` — How to trigger a skill
 
@@ -156,7 +159,10 @@ A prompt without a skill file behind it is improvised. A prompt that loads a ski
 
 When a task requires more than one skill in sequence — for example, gather information, then analyse it, then produce a structured output — a workflow coordinates the phases. Each phase has clear inputs, outputs, and a quality gate before moving to the next.
 
-**In this vault:** `_template.md` — blank template showing the full workflow structure.
+**In this vault:** `example-research-synthesis.md` demonstrates how two skills
+are chained with a quality gate. `public-template-maintenance.md` defines the
+clean-room process for publishing reusable design lessons without source-vault
+data. `_template.md` shows the blank workflow structure.
 
 ### `50-knowledge/` — What you know
 
@@ -173,7 +179,9 @@ A dated log of every significant piece of work. Sessions serve two purposes: the
 
 The key feature: a `## Flagged Observations` section where unexpected findings are recorded as *candidates* — not immediately written as lessons. This is deliberate. An LLM working through a session cannot reliably determine root cause, and a finding that seems like a tool failure might be a usage error, an environment issue, or a genuine insight. A human reviews flagged observations in a curation pass and decides which ones become permanent methodology.
 
-**In this vault:** `_template.md` — the session template. Two synthetic examples showing the format.
+**In this vault:** `_template.md` is the session template. Two synthetic teaching
+examples show investigation and curation sessions, and a public-safe maintenance
+record demonstrates an architecture refresh.
 
 ### `20-llm-configs/` and `22-personas/` — Which AI to use and how
 
@@ -185,7 +193,7 @@ One file per LLM provider or configuration, documenting the endpoint, model, con
 
 **Run one locally, no API key, in a single command:** `python3 97-scripts/setup-ollama.py --all` installs [Ollama](https://ollama.com), downloads a model sized to your hardware, tests it, and prints how to point the vault at it (Linux, macOS, or Windows). See `25-model-map/ollama-models.md` and `20-llm-configs/ollama-local.md`.
 
-### `70-credentials/` — Where secrets live (not what they are)
+### `70-credentials/` — How secret locations are referenced
 
 Masked references and config file paths only. The format records which environment variable to set, which file holds the actual value, and when it was last rotated. The secret itself never enters the vault.
 
