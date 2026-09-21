@@ -13,9 +13,9 @@ last_updated: 2026-09-21
 
 Append-only index of analysis sessions run on this host. Each entry links to the full session file.
 
-> These are sanitised, domain-neutral **teaching examples** — one investigation-type
-> session (running a workflow) and one maintenance-type session (a curation run) — chosen
-> to demonstrate the two session archetypes without any sensitive methodology.
+> This index contains two sanitised, domain-neutral **teaching examples** — one
+> investigation session and one curation session — plus public-safe maintenance
+> records. It contains no private-vault or operational data.
 
 ---
 
@@ -52,6 +52,18 @@ Append-only index of analysis sessions run on this host. Each entry links to the
 **Summary:** Added a portable architecture contract and public-template maintenance workflow; aligned schema, navigation, hooks, and deterministic checks without importing operational content.
 **Resume from:** N/A
 **Vault session:** `60-sessions/analysis-server/2026-09-21-public-template-architecture-refresh.md`
+
+---
+
+### Session 4 — Public template README alignment
+**Working dir:** public template repository
+**Date:** 2026-09-21
+**Mode:** N/A
+**Topic:** README inventory audit and public-safe documentation correction
+**Status:** COMPLETE
+**Summary:** Aligned the README with the current public template, clarified the credentials boundary, validated the result, and published the correction.
+**Resume from:** N/A
+**Vault session:** `60-sessions/analysis-server/2026-09-21-public-template-readme-alignment.md`
 
 ---
 
